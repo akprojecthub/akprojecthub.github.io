@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AK ProjectHub</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g1:#0d2818;--g2:#14532d;--g3:#166534;--g4:#16a34a;--g5:#22c55e;--g6:#4ade80;
+  --gold:#fbbf24;--red:#ef4444;
+  --bg:#050f0a;--surface:#0a1f12;--surface2:#0f2d1a;
+  --border:rgba(34,197,94,0.15);--border2:rgba(34,197,94,0.3);
+  --text:#f0fdf4;--text2:#bbf7d0;--text3:#86efac;--text-muted:#4ade80;
+  --shadow:0 4px 32px rgba(0,0,0,0.5);--glow:0 0 20px rgba(34,197,94,0.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(22,163,74,0.12),transparent),radial-gradient(ellipse 40% 40% at 90% 90%,rgba(20,83,45,0.1),transparent);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--g1)}::-webkit-scrollbar-thumb{background:var(--g3);border-radius:3px}
+
+.page{display:none;min-height:100vh;position:relative;z-index:1}
+.page.active{display:block}
+#page-login{align-items:center;justify-content:center;min-height:100vh;padding:2rem}
+#page-login.active{display:flex}
+body.on-login .hamburger{display:none!important}
+body.on-login .sidebar{display:none!important}
+
+.login-bg{position:fixed;inset:0;overflow:hidden;z-index:0}
+.login-bg .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.4}
+.login-bg .orb1{width:500px;height:500px;background:radial-gradient(circle,var(--g3),transparent);top:-100px;left:-100px;animation:orbFloat 8s ease-in-out infinite}
+.login-bg .orb2{width:400px;height:400px;background:radial-gradient(circle,var(--g2),transparent);bottom:-100px;right:-50px;animation:orbFloat 10s ease-in-out infinite reverse}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,20px) scale(1.05)}}
+.login-card{position:relative;z-index:1;width:100%;max-width:420px;background:rgba(10,31,18,0.85);backdrop-filter:blur(20px);border:1px solid var(--border2);border-radius:24px;padding:3rem 2.5rem;box-shadow:var(--shadow),var(--glow)}
+.login-logo{text-align:center;margin-bottom:2rem}
+.login-logo .logo-icon{width:64px;height:64px;background:linear-gradient(135deg,var(--g3),var(--g5));border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:1rem;box-shadow:0 0 30px rgba(34,197,94,0.3)}
+.login-logo h1{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--g6),var(--text));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.login-logo p{color:var(--text3);font-size:0.875rem;margin-top:0.25rem}
+.form-group{margin-bottom:1.25rem}
+.form-group label{display:block;font-size:0.8rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem}
+.form-group input{width:100%;background:rgba(5,15,10,0.8);border:1px solid var(--border);border-radius:10px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;transition:all .2s}
+.form-group input:focus{border-color:var(--g5);box-shadow:0 0 0 3px rgba(34,197,94,0.1)}
+.login-btn{width:100%;padding:0.875rem;background:linear-gradient(135deg,var(--g3),var(--g4));border:none;border-radius:10px;color:#fff;font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all .3s;margin-top:0.5rem}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(34,197,94,0.3)}
+.login-error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:0.75rem 1rem;color:#fca5a5;font-size:0.85rem;margin-top:1rem;display:none}
+.login-error.show{display:block}
+
+.app-layout{display:flex;min-height:100vh}
+.sidebar{width:240px;min-height:100vh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;z-index:100;transition:transform .3s}
+.sidebar-logo{padding:1.5rem;border-bottom:1px solid var(--border)}
+.sidebar-logo h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;background:linear-gradient(135deg,var(--g6),var(--text));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sidebar-logo span{font-size:0.7rem;color:var(--text-muted);display:block;margin-top:2px}
+.sidebar-nav{flex:1;padding:1rem 0}
+.nav-section-label{padding:0.5rem 1.25rem;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);font-weight:600}
+.nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.65rem 1.25rem;color:var(--text2);cursor:pointer;transition:all .2s;border-left:3px solid transparent;font-size:0.875rem;font-weight:500}
+.nav-item:hover{background:rgba(34,197,94,0.07);color:var(--g6);border-left-color:var(--g5)}
+.nav-item.active{background:rgba(34,197,94,0.1);color:var(--g6);border-left-color:var(--g5)}
+.nav-icon{font-size:16px}
+.sidebar-footer{padding:1.25rem;border-top:1px solid var(--border)}
+.sidebar-user{display:flex;align-items:center;gap:0.75rem}
+.sidebar-avatar{width:36px;height:36px;background:linear-gradient(135deg,var(--g3),var(--g5));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;overflow:hidden}
+.sidebar-avatar img{width:100%;height:100%;object-fit:cover}
+.sidebar-user-info{flex:1;min-width:0}
+.sidebar-user-name{font-size:0.8rem;font-weight:600;color:var(--text)}
+.sidebar-user-role{font-size:0.7rem;color:var(--text-muted)}
+.logout-btn{background:none;border:1px solid var(--border);border-radius:6px;color:var(--text3);cursor:pointer;padding:0.3rem 0.6rem;font-size:0.7rem;transition:all .2s}
+.logout-btn:hover{border-color:var(--red);color:#fca5a5}
+.main-content{margin-left:240px;flex:1;padding:2rem}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
+.topbar-left h1{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text)}
+.topbar-left p{color:var(--text3);font-size:0.85rem;margin-top:2px}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-bottom:2rem}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.25rem 1.5rem;transition:all .3s;position:relative;overflow:hidden}
+.stat-card:hover{border-color:var(--border2);box-shadow:var(--glow)}
+.stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:0.75rem}
+.stat-icon.green{background:rgba(34,197,94,0.1)}
+.stat-icon.gold{background:rgba(251,191,36,0.1)}
+.stat-icon.blue{background:rgba(59,130,246,0.1)}
+.stat-icon.purple{background:rgba(168,85,247,0.1)}
+.stat-value{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--text)}
+.stat-label{font-size:0.78rem;color:var(--text3);margin-top:2px}
+.stat-change{font-size:0.72rem;color:var(--g5);margin-top:0.25rem}
+
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.section-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text)}
+.section-subtitle{font-size:0.78rem;color:var(--text-muted);margin-top:2px}
+
+.filter-row{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem}
+.filter-chip{display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem 0.9rem;border-radius:999px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-size:0.78rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.filter-chip:hover{border-color:var(--g5);color:var(--g6)}
+.filter-chip.active{background:rgba(34,197,94,0.15);border-color:var(--g5);color:var(--g5)}
+.chip-badge{background:rgba(34,197,94,0.2);color:var(--g6);border-radius:999px;padding:1px 6px;font-size:0.68rem;font-weight:700}
+
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem}
+.project-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .3s;position:relative}
+.project-card:hover{transform:translateY(-4px);border-color:var(--border2);box-shadow:var(--shadow),var(--glow)}
+.card-image-area{height:160px;background:linear-gradient(135deg,var(--g1),var(--surface2));position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.card-image-area img{width:100%;height:100%;object-fit:cover;transition:.3s}
+.project-card:hover .card-image-area img{transform:scale(1.04)}
+.card-image-placeholder{font-size:3rem;opacity:0.3}
+.card-image-count{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);border-radius:6px;padding:2px 8px;font-size:0.7rem;color:var(--text)}
+.card-body{padding:1.25rem}
+.card-tech{display:inline-flex;align-items:center;padding:0.25rem 0.75rem;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:999px;font-size:0.7rem;font-weight:600;color:var(--g6);margin-bottom:0.75rem}
+.card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.5rem;line-height:1.3}
+.card-desc{font-size:0.82rem;color:var(--text3);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding:0.875rem 1.25rem;border-top:1px solid var(--border)}
+.github-link{display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--text3);text-decoration:none;transition:.2s}
+.github-link:hover{color:var(--g6)}
+
+/* CARD TECH STACK PREVIEW */
+.card-tech-stack{display:flex;flex-wrap:wrap;gap:4px;margin-top:0.6rem}
+.card-tech-pill{padding:2px 7px;border-radius:4px;font-size:0.65rem;font-weight:600;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.15);color:var(--text3)}
+
+.detail-back{display:inline-flex;align-items:center;gap:0.5rem;color:var(--text3);cursor:pointer;font-size:0.85rem;margin-bottom:1.5rem;transition:.2s;background:none;border:none}
+.detail-back:hover{color:var(--g6)}
+.detail-header{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.detail-header::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(34,197,94,0.08),transparent);pointer-events:none}
+.detail-tech-badge{display:inline-flex;padding:0.3rem 1rem;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.25);border-radius:999px;font-size:0.8rem;font-weight:600;color:var(--g6);margin-bottom:1rem}
+.detail-title{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--text);margin-bottom:0.75rem}
+.detail-meta{display:flex;align-items:center;flex-wrap:wrap;gap:1rem}
+.detail-meta-item{display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;color:var(--text3);text-decoration:none}
+.detail-meta-item:hover{color:var(--g6)}
+.detail-body{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-bottom:1.5rem}
+.detail-section{margin-bottom:1.75rem}
+.detail-section:last-child{margin-bottom:0}
+.detail-section h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--g6);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem}
+.detail-section h3::after{content:'';flex:1;height:1px;background:var(--border)}
+.detail-section p,.detail-section li{font-size:0.88rem;color:var(--text2);line-height:1.8}
+.detail-section ul{list-style:none;padding:0}
+.detail-section ul li{padding:0.3rem 0 0.3rem 1.2rem;position:relative}
+.detail-section ul li::before{content:'▸';color:var(--g5);position:absolute;left:0}
+.tags-row{display:flex;flex-wrap:wrap;gap:0.5rem}
+.tag{padding:0.25rem 0.75rem;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.18);border-radius:6px;font-size:0.78rem;color:var(--text3)}
+
+/* ── TECH STACK SECTION ── */
+.tech-stack-section{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-bottom:1.5rem}
+.tech-layer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.875rem;margin-top:1rem}
+.tech-layer{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem;transition:border-color .2s}
+.tech-layer:hover{border-color:var(--border2)}
+.tech-layer-header{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem}
+.tech-layer-icon{font-size:16px}
+.tech-layer-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted)}
+.tech-layer-pills{display:flex;flex-wrap:wrap;gap:4px}
+.tech-pill{padding:3px 9px;border-radius:5px;font-size:0.72rem;font-weight:600;border:1px solid}
+.tech-pill.frontend{background:rgba(59,130,246,0.08);border-color:rgba(59,130,246,0.22);color:#93c5fd}
+.tech-pill.backend{background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.22);color:var(--g6)}
+.tech-pill.database{background:rgba(251,191,36,0.08);border-color:rgba(251,191,36,0.22);color:#fcd34d}
+.tech-pill.ml{background:rgba(168,85,247,0.08);border-color:rgba(168,85,247,0.22);color:#c4b5fd}
+.tech-pill.devops{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.22);color:#fca5a5}
+.tech-pill.analytics{background:rgba(20,184,166,0.08);border-color:rgba(20,184,166,0.22);color:#5eead4}
+.tech-pill.other{background:rgba(156,163,175,0.08);border-color:rgba(156,163,175,0.22);color:#d1d5db}
+
+/* ── GALLERY ── */
+.gallery-section{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-bottom:1.5rem}
+.gallery-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.gallery-header-left{display:flex;align-items:center;gap:0.75rem}
+.gallery-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--text)}
+.gallery-count-badge{background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);border-radius:999px;padding:2px 10px;font-size:0.72rem;font-weight:700;color:var(--g6)}
+.gallery-view-btns{display:flex;gap:4px}
+.gallery-view-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:none;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s}
+.gallery-view-btn.active,.gallery-view-btn:hover{background:rgba(34,197,94,0.1);border-color:var(--border2);color:var(--g6)}
+
+/* Grid layout */
+.gallery-grid-view{display:grid;gap:0.75rem}
+.gallery-grid-view.cols-3{grid-template-columns:repeat(3,1fr)}
+.gallery-grid-view.cols-2{grid-template-columns:repeat(2,1fr)}
+
+.gallery-item{position:relative;border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid var(--border);background:var(--surface2);transition:border-color .2s}
+.gallery-item:hover{border-color:var(--border2)}
+.gallery-grid-view .gallery-item{aspect-ratio:16/10}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.gallery-item:hover img{transform:scale(1.04)}
+.gallery-item-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 50%);opacity:0;transition:opacity .25s;display:flex;align-items:flex-end;padding:0.75rem}
+.gallery-item:hover .gallery-item-overlay{opacity:1}
+.gallery-item-label{font-size:0.72rem;font-weight:600;color:#fff}
+.gallery-item-zoom{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:6px;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;font-size:13px;opacity:0;transition:opacity .2s}
+.gallery-item:hover .gallery-item-zoom{opacity:1}
+/* Featured first item */
+.gallery-grid-view.cols-3 .gallery-item:first-child{grid-column:1/3;aspect-ratio:16/7}
+.gallery-strip{display:flex;gap:0.75rem;overflow-x:auto;padding-bottom:0.5rem;scroll-snap-type:x mandatory}
+.gallery-strip::-webkit-scrollbar{height:4px}
+.gallery-strip::-webkit-scrollbar-track{background:var(--g1)}
+.gallery-strip::-webkit-scrollbar-thumb{background:var(--g3);border-radius:2px}
+.gallery-strip .gallery-item{flex:0 0 220px;height:138px;scroll-snap-align:start}
+
+/* ── LIGHTBOX ── */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.25s}
+.lightbox.open{opacity:1;pointer-events:all}
+.lightbox-inner{position:relative;max-width:90vw;max-height:88vh;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.lightbox-img{max-width:100%;max-height:78vh;border-radius:12px;object-fit:contain;border:1px solid rgba(34,197,94,0.15)}
+.lightbox-close{position:absolute;top:-48px;right:-4px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.lightbox-close:hover{background:rgba(239,68,68,0.2);border-color:rgba(239,68,68,0.4)}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;z-index:10}
+.lightbox-nav:hover{background:rgba(34,197,94,0.25);border-color:rgba(34,197,94,0.5)}
+.lightbox-prev{left:-64px}
+.lightbox-next{right:-64px}
+.lightbox-footer{display:flex;align-items:center;gap:1rem}
+.lightbox-counter{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);padding:0.35rem 1rem;border-radius:999px;font-size:0.78rem;color:var(--text2);border:1px solid rgba(255,255,255,0.08)}
+.lightbox-thumbnails{display:flex;gap:6px;overflow-x:auto;max-width:70vw;padding:4px}
+.lightbox-thumbnails::-webkit-scrollbar{height:3px}
+.lb-thumb{width:48px;height:32px;border-radius:5px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:.2s;flex-shrink:0}
+.lb-thumb img{width:100%;height:100%;object-fit:cover}
+.lb-thumb.active{border-color:var(--g5)}
+.lb-thumb:not(.active):hover{border-color:var(--border2)}
+
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.trending-list{display:flex;flex-direction:column;gap:0.75rem}
+.trending-item{display:flex;align-items:center;gap:1rem;padding:1rem;background:var(--surface2);border:1px solid var(--border);border-radius:12px;cursor:pointer;transition:.2s}
+.trending-item:hover{border-color:var(--border2)}
+.trending-rank{width:28px;height:28px;border-radius:7px;background:rgba(34,197,94,0.1);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--g5);flex-shrink:0}
+.trending-info{flex:1;min-width:0}
+.trending-name{font-size:0.875rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trending-tech{font-size:0.72rem;color:var(--text3);margin-top:2px}
+.activity-feed{display:flex;flex-direction:column}
+.activity-item{display:flex;align-items:flex-start;gap:1rem;padding:0.875rem 0;border-bottom:1px solid var(--border);font-size:0.82rem}
+.activity-item:last-child{border-bottom:none}
+.activity-dot{width:8px;height:8px;border-radius:50%;background:var(--g5);margin-top:5px;flex-shrink:0}
+.activity-text{flex:1;color:var(--text2);line-height:1.6}
+.activity-text strong{color:var(--g6)}
+.activity-time{color:var(--text-muted);font-size:0.73rem;white-space:nowrap}
+
+.bio-hero{background:linear-gradient(135deg,var(--g1),var(--surface2));border:1px solid var(--border);border-radius:24px;padding:2.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;position:relative;overflow:hidden}
+.bio-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(34,197,94,0.1),transparent);pointer-events:none}
+.bio-avatar{width:130px;height:130px;border-radius:50%;background:linear-gradient(135deg,var(--g2),var(--g5));display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:800;flex-shrink:0;border:3px solid var(--border2);box-shadow:0 0 30px rgba(34,197,94,0.25);overflow:hidden}
+.bio-avatar img{width:100%;height:100%;object-fit:cover}
+.bio-info h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--text)}
+.bio-role{color:var(--g6);font-size:0.9rem;font-weight:500;margin:0.25rem 0}
+.bio-loc{color:var(--text3);font-size:0.82rem;display:flex;align-items:center;gap:0.35rem}
+.bio-socials{display:flex;gap:0.75rem;margin-top:1rem;flex-wrap:wrap}
+.social-btn{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 1.1rem;border-radius:9px;border:1px solid var(--border2);background:rgba(34,197,94,0.05);color:var(--text2);text-decoration:none;font-size:0.8rem;font-weight:500;transition:.2s}
+.social-btn:hover{border-color:var(--g5);color:var(--g6);transform:translateY(-2px)}
+.bio-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem}
+.bio-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem}
+.bio-card h3{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--g6);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
+.bio-card p{font-size:0.85rem;color:var(--text2);line-height:1.8}
+.skills-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+.skill-tag{padding:0.3rem 0.8rem;border-radius:6px;font-size:0.75rem;font-weight:600;border:1px solid}
+.skill-tag.green{background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.25);color:var(--g6)}
+.skill-tag.blue{background:rgba(59,130,246,0.08);border-color:rgba(59,130,246,0.25);color:#93c5fd}
+.skill-tag.gold{background:rgba(251,191,36,0.08);border-color:rgba(251,191,36,0.25);color:#fcd34d}
+.skill-tag.purple{background:rgba(168,85,247,0.08);border-color:rgba(168,85,247,0.25);color:#c4b5fd}
+.timeline{position:relative;padding-left:1.5rem}
+.timeline::before{content:'';position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:linear-gradient(to bottom,var(--g5),transparent)}
+.timeline-item{position:relative;padding-bottom:1.25rem}
+.timeline-item:last-child{padding-bottom:0}
+.timeline-dot{position:absolute;left:-1.5rem;top:4px;width:14px;height:14px;border-radius:50%;background:var(--g4);border:2px solid var(--bg);box-shadow:0 0 8px rgba(34,197,94,0.4)}
+.timeline-title{font-size:0.875rem;font-weight:600;color:var(--text)}
+.timeline-sub{font-size:0.78rem;color:var(--text3);margin-top:2px}
+.timeline-date{font-size:0.72rem;color:var(--text-muted);margin-top:2px}
+.achievement-list{list-style:none}
+.achievement-list li{display:flex;align-items:flex-start;gap:0.5rem;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.83rem;color:var(--text2)}
+.achievement-list li:last-child{border-bottom:none}
+
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--text-muted);grid-column:1/-1}
+.empty-icon{font-size:3rem;margin-bottom:1rem;opacity:0.5}
+
+.toast-container{position:fixed;bottom:2rem;right:2rem;z-index:3000;display:flex;flex-direction:column;gap:0.5rem}
+.toast{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:0.75rem 1.25rem;font-size:0.85rem;color:var(--text);display:flex;align-items:center;gap:0.75rem;box-shadow:var(--shadow);animation:toastIn .3s ease;max-width:300px}
+.toast.success{border-color:rgba(34,197,94,0.4);background:rgba(14,53,24,0.95)}
+.toast.error{border-color:rgba(239,68,68,0.4);background:rgba(40,15,15,0.95)}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+.hamburger{display:none;position:fixed;top:1rem;left:1rem;z-index:200;width:36px;height:36px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:20px;align-items:center;justify-content:center;cursor:pointer}
+@media (max-width: 768px){
+
+  body{
+    font-size:14px;
+  }
+
+  .hamburger{
+    display:flex;
+  }
+
+  .sidebar{
+    transform:translateX(-100%);
+    width:220px;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .main-content{
+    margin-left:0;
+    padding:1rem;
+    width:100%;
+  }
+
+  .topbar{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:.5rem;
+    margin-top:3rem;
+  }
+
+  .topbar-left h1{
+    font-size:1.2rem;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+
+  .dash-grid{
+    grid-template-columns:1fr;
+  }
+
+  .projects-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+}
+
+  .project-card{
+    width:100%;
+  }
+
+  .card-image-area{
+    height:180px;
+  }
+
+  .detail-title{
+    font-size:1.3rem;
+    line-height:1.4;
+  }
+
+  .detail-header,
+  .detail-body,
+  .tech-stack-section,
+  .gallery-section,
+  .bio-card{
+    padding:1rem;
+  }
+
+  .detail-meta{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:.5rem;
+  }
+
+  .bio-hero{
+    flex-direction:column;
+    text-align:center;
+    padding:1.5rem 1rem;
+  }
+
+  .bio-avatar{
+    width:100px;
+    height:100px;
+  }
+
+  .bio-info h1{
+    font-size:1.5rem;
+  }
+
+  .bio-socials{
+    justify-content:center;
+  }
+
+  .bio-grid{
+    grid-template-columns:1fr;
+  }
+
+  .tech-layer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .gallery-grid-view.cols-3,
+  .gallery-grid-view.cols-2{
+    grid-template-columns:1fr;
+  }
+
+  .gallery-grid-view.cols-3 .gallery-item:first-child{
+    grid-column:auto;
+    aspect-ratio:16/10;
+  }
+
+  .lightbox-prev{
+    left:10px;
+  }
+
+  .lightbox-next{
+    right:10px;
+  }
+
+  .lightbox-thumbnails{
+    display:none;
+  }
+
+  .filter-row{
+    overflow-x:auto;
+    flex-wrap:nowrap;
+    padding-bottom:.5rem;
+  }
+
+  .filter-chip{
+    flex-shrink:0;
+  }
+
+  .login-card{
+    padding:2rem 1.25rem;
+    border-radius:18px;
+  }
+
+  .detail-back{
+    margin-top:3rem;
+  }
+
+  .toast-container{
+    right:1rem;
+    left:1rem;
+    bottom:1rem;
+  }
+
+  .toast{
+    max-width:100%;
+  }
+
+  .bio-card div[style*="repeat(4,1fr)"]{
+    grid-template-columns:repeat(2,1fr)!important;
+  }
+}
+</style>
+</head>
+<body class="on-login">
+
+<button class="hamburger" onclick="toggleSidebar()">☰</button>
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- LOGIN PAGE -->
+<div id="page-login" class="page active">
+  <div class="login-bg"><div class="orb orb1"></div><div class="orb orb2"></div></div>
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-icon">🚀</div>
+      <h1>AK ProjectHub</h1>
+      <p>Developer Portfolio & Project Showcase</p>
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="loginEmail" placeholder="Enter your email" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="off">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Sign In →</button>
+    <div class="login-error" id="loginError">⚠ Invalid email or password. Please try again.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="page-app" class="page">
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <h2>🚀 AK ProjectHub</h2>
+        <span>Developer Portfolio</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Main</div>
+        <div class="nav-item active" onclick="showView('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</div>
+        <div class="nav-item" onclick="showView('projects',this)"><span class="nav-icon">📁</span> Projects</div>
+        <div class="nav-section-label" style="margin-top:.5rem">Profile</div>
+        <div class="nav-item" onclick="showView('bio',this)"><span class="nav-icon">👤</span> Portfolio</div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">
+            <img src="https://ansarkp10.github.io/images/akp.jpg" alt="AK" onerror="this.style.display='none'">
+          </div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">K Ansar</div>
+            <div class="sidebar-user-role">Developer</div>
+          </div>
+          <button class="logout-btn" onclick="doLogout()">Out</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <!-- DASHBOARD -->
+      <div id="view-dashboard">
+        <div class="topbar">
+          <div class="topbar-left"><h1>Dashboard</h1><p>Welcome back, Ansar! Here's your portfolio overview.</p></div>
+        </div>
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="dash-grid">
+          <div>
+            <div class="section-header"><div><div class="section-title">🔥 Featured Projects</div><div class="section-subtitle">Top picks from the portfolio</div></div></div>
+            <div class="trending-list" id="trendingList"></div>
+          </div>
+          <div>
+            <div class="section-header"><div><div class="section-title">⚡ Recent Activity</div></div></div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.25rem">
+              <div class="activity-feed" id="activityFeed"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div id="view-projects" style="display:none">
+        <div class="topbar">
+          <div class="topbar-left"><h1>Projects</h1><p>All repositories and work by K Ansar</p></div>
+        </div>
+        <div class="filter-row" id="filterRow"></div>
+        <div class="projects-grid" id="projectsGrid"></div>
+      </div>
+
+      <!-- DETAIL -->
+      <div id="view-detail" style="display:none">
+        <button class="detail-back" onclick="backToProjects()">← Back to Projects</button>
+        <div class="detail-header">
+          <div id="detailTechBadge" class="detail-tech-badge"></div>
+          <h1 class="detail-title" id="detailTitle"></h1>
+          <div class="detail-meta" id="detailMeta"></div>
+        </div>
+        <!-- Tech Stack Section -->
+        <div class="tech-stack-section" id="detailTechStack" style="display:none"></div>
+        <!-- Gallery Section -->
+        <div id="detailGallery" style="display:none"></div>
+        <div class="detail-body" id="detailBody"></div>
+      </div>
+
+      <!-- PORTFOLIO / BIO -->
+      <div id="view-bio" style="display:none">
+        <div class="topbar"><div class="topbar-left"><h1>Portfolio</h1><p>Professional profile of K Ansar</p></div></div>
+        <div class="bio-hero">
+          <div class="bio-avatar">
+            <img src="https://ansarkp10.github.io/images/akp.jpg" alt="K Ansar" onerror="this.style.display='none'">
+          </div>
+          <div class="bio-info">
+            <h1>K Ansar</h1>
+            <div class="bio-role">Full Stack Developer · Django & Next.js Builder · AI Project Creator</div>
+            <div class="bio-loc">📍 Palakkad, Kerala, India</div>
+            <div class="bio-socials">
+              <a href="https://ansarkp10.github.io/" target="_blank" class="social-btn">🌐 Portfolio</a>
+              <a href="https://github.com/ansarkp10" target="_blank" class="social-btn">🐙 GitHub</a>
+              <a href="https://www.linkedin.com/in/ansar-kp-76040429b" target="_blank" class="social-btn">💼 LinkedIn</a>
+              <a href="https://www.instagram.com/ansarkp10" target="_blank" class="social-btn">📸 Instagram</a>
+              <a href="https://www.facebook.com/ansar.bhai.37201" target="_blank" class="social-btn">📘 Facebook</a>
+              <a href="mailto:ansarkp250@gmail.com" class="social-btn">📧 Email</a>
+            </div>
+          </div>
+        </div>
+        <div class="bio-grid">
+          <div class="bio-card" style="grid-column:1/-1">
+            <h3>👋 About Me</h3>
+            <p>Hi, I'm <strong style="color:var(--g6)">K Ansar</strong> — a Full Stack Developer with over 3 years of experience building engaging, user-friendly websites and applications. I'm passionate about crafting distinctive digital identities that resonate with audiences and elevate brand presence. I specialise in secure and efficient server-side logic, and I constantly stay at the forefront of emerging technologies to enhance the overall performance of web applications.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin-top:1.25rem">
+              <div style="background:rgba(34,197,94,0.05);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem"><div style="color:var(--text-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem">Name</div><div style="color:var(--text);font-weight:600;font-size:.85rem">K Ansar</div></div>
+              <div style="background:rgba(34,197,94,0.05);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem"><div style="color:var(--text-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem">Age</div><div style="color:var(--text);font-weight:600;font-size:.85rem">24</div></div>
+              <div style="background:rgba(34,197,94,0.05);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem"><div style="color:var(--text-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem">Phone</div><div style="color:var(--text);font-weight:600;font-size:.85rem">+91 8848957977</div></div>
+              <div style="background:rgba(34,197,94,0.05);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem"><div style="color:var(--text-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem">Email</div><div style="color:var(--text);font-weight:600;font-size:.85rem">ansarkp250@gmail.com</div></div>
+            </div>
+          </div>
+          <div class="bio-card" style="grid-column:1/-1">
+            <h3>📊 Impact & Numbers</h3>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center">
+              <div><div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g5)">20+</div><div style="font-size:.75rem;color:var(--text3);margin-top:2px">Projects</div></div>
+              <div><div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g5)">400K</div><div style="font-size:.75rem;color:var(--text3);margin-top:2px">Downloads</div></div>
+              <div><div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g5)">60+</div><div style="font-size:.75rem;color:var(--text3);margin-top:2px">Reviews</div></div>
+              <div><div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g5)">200K</div><div style="font-size:.75rem;color:var(--text3);margin-top:2px">Active Users</div></div>
+            </div>
+          </div>
+          <div class="bio-card">
+            <h3>🛠 Technical Skills</h3>
+            <div class="skills-tags">
+              <span class="skill-tag green">JavaScript</span><span class="skill-tag green">React.js</span><span class="skill-tag green">Node.js</span><span class="skill-tag green">MongoDB</span><span class="skill-tag green">HTML/CSS</span><span class="skill-tag blue">Python</span><span class="skill-tag blue">Django</span><span class="skill-tag blue">Next.js</span><span class="skill-tag blue">PHP</span><span class="skill-tag gold">Pandas</span><span class="skill-tag gold">NumPy</span><span class="skill-tag gold">Matplotlib</span><span class="skill-tag purple">TensorFlow</span><span class="skill-tag purple">Scikit-Learn</span><span class="skill-tag purple">Git</span><span class="skill-tag purple">Docker</span>
+            </div>
+          </div>
+          <div class="bio-card">
+            <h3>🎯 Services</h3>
+            <div style="display:flex;flex-direction:column;gap:.6rem">
+              <div style="display:flex;align-items:center;gap:.6rem;font-size:.83rem;color:var(--text2)">💻 Web Development</div>
+              <div style="display:flex;align-items:center;gap:.6rem;font-size:.83rem;color:var(--text2)">🎨 Web Design</div>
+              <div style="display:flex;align-items:center;gap:.6rem;font-size:.83rem;color:var(--text2)">📱 App Development</div>
+              <div style="display:flex;align-items:center;gap:.6rem;font-size:.83rem;color:var(--text2)">📊 Data Analytics</div>
+              <div style="display:flex;align-items:center;gap:.6rem;font-size:.83rem;color:var(--text2)">🤖 Machine Learning</div>
+              <div style="display:flex;align-items:center;gap:.6rem;font-size:.83rem;color:var(--text2)">⚙️ DevOps</div>
+            </div>
+          </div>
+          <div class="bio-card">
+            <h3>💼 Work Experience</h3>
+            <div class="timeline">
+              <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-title">Full Stack Developer</div><div class="timeline-sub">Freelance Projects</div><div class="timeline-date">2026 – Present</div></div>
+              <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-title">AI Intern</div><div class="timeline-sub">SmartED Innovations, Bengaluru</div><div class="timeline-date">2024 – 2025</div></div>
+            </div>
+          </div>
+          <div class="bio-card">
+            <h3>🎓 Education</h3>
+            <div class="timeline">
+              <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-title">MCA (Master of Computer Applications)</div><div class="timeline-sub">APJ Abdul Kalam Technological University</div><div class="timeline-date">2024 – 2026</div></div>
+              <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-title">Bachelor of Science in Computer Science</div><div class="timeline-sub">University Of Calicut, Kerala</div><div class="timeline-date">2021 – 2024</div></div>
+            </div>
+          </div>
+          <div class="bio-card">
+            <h3>🏆 Achievements & Certifications</h3>
+            <ul class="achievement-list">
+              <li>Meta Certified Back-End Developer Professional Certificate</li>
+              <li>Certified in Django Web Framework & REST APIs</li>
+              <li>Completed Full Stack Development Specialization</li>
+              <li>Certified in Programming with Python & Database Management</li>
+              <li>Skilled in Git & Version Control for Collaborative Development</li>
+              <li>NPTEL Elite Certified in Cloud Computing</li>
+            </ul>
+          </div>
+          <div class="bio-card">
+            <h3>❤️ Interests & Hobbies</h3>
+            <div class="skills-tags">
+              <span class="skill-tag green">Full Stack Development</span><span class="skill-tag blue">AI & ML</span><span class="skill-tag gold">Data Analytics</span><span class="skill-tag purple">Coding</span><span class="skill-tag green">UI/UX Design</span><span class="skill-tag blue">Football</span><span class="skill-tag gold">Video Editing</span><span class="skill-tag purple">Music</span>
+            </div>
+          </div>
+          <div class="bio-card" style="grid-column:1/-1;background:linear-gradient(135deg,rgba(22,101,52,0.3),rgba(15,45,26,0.8));border-color:var(--border2);text-align:center;padding:2rem">
+            <div style="font-size:2rem;margin-bottom:.75rem">🌐</div>
+            <h3 style="justify-content:center;margin-bottom:.5rem">Live Portfolio Website</h3>
+            <p style="margin-bottom:1.25rem;color:var(--text3)">Full portfolio with all projects, services and contact details.</p>
+            <a href="https://ansarkp10.github.io/" target="_blank" style="display:inline-flex;align-items:center;gap:.6rem;padding:.75rem 2rem;background:linear-gradient(135deg,var(--g3),var(--g4));border-radius:10px;color:#fff;text-decoration:none;font-weight:700;font-family:'Syne',sans-serif;font-size:.9rem;transition:.3s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(34,197,94,0.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">Visit ansarkp10.github.io →</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="handleLightboxClick(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)">‹</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="">
+    <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)">›</button>
+    <div class="lightbox-footer">
+      <div class="lightbox-counter" id="lightboxCounter"></div>
+      <div class="lightbox-thumbnails" id="lightboxThumbs"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── PROJECT DATA ──────────────────────────────────────────────
+// techStack: categorized layers for the new "Technologies Used" section
+// Each layer: { label, icon, type (frontend|backend|database|ml|devops|analytics|other), tools[] }
+const PROJECTS = [
+  {
+    id: 1,
+    name: 'AK Store Annual Report Dashboard',
+    tech: 'Data Analytics',
+    desc: 'Interactive Excel dashboard for annual sales analysis with dynamic charts and business insights.',
+    overview: 'An interactive Microsoft Excel dashboard developed for analyzing AK Store annual sales data for 2026. The project includes dynamic Pivot Charts, Pivot Tables, slicers, and business insights for tracking sales performance, customer demographics, order status, and revenue distribution across multiple channels and states.',
+    github: '#',
+    createdAt: '2026-06-14',
+    contributor: 'K Ansar',
+    techStack: [
+      { label: 'Analytics Tool', icon: '📊', type: 'analytics', tools: ['Microsoft Excel'] },
+      { label: 'Data Processing', icon: '🔄', type: 'analytics', tools: ['Pivot Tables', 'Pivot Charts', 'Slicers', 'Data Cleaning'] },
+      { label: 'Reporting', icon: '📋', type: 'other', tools: ['Dashboard Design', 'Business Analytics', 'Conditional Formatting'] }
+    ],
+    tools: ['Microsoft Excel','Pivot Tables','Pivot Charts','Data Cleaning','Dashboard Design','Business Analytics','Slicers'],
+    features: ['Interactive Excel Dashboard with slicers','Orders vs Sales analysis','Men vs Women sales comparison','Top 5 states revenue tracking','Age & Gender customer analysis','Sales channel performance insights','Order status visualization'],
+    outcomes: ['Improved business decision-making using data insights','Created dynamic and interactive sales reports','Enhanced understanding of business analytics workflows'],
+    images: ['screenshots/ak-store-dashboard/image1.png','screenshots/ak-store-dashboard/image2.png','screenshots/ak-store-dashboard/image3.png','screenshots/ak-store-dashboard/image4.png']
+  },
+  {
+    id: 2,
+    name: 'Student Performance Prediction System (EduPredict)',
+    tech: 'Machine Learning',
+    desc: 'Django-based web application that predicts student performance using Machine Learning algorithms.',
+    overview: 'A Django-based web application that uses Machine Learning to predict student performance in online courses. The system helps educators identify at-risk students early and implement timely interventions.',
+    github: '#',
+    createdAt: '2024-03-20',
+    contributor: 'K Ansar',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Bootstrap 5', 'Chart.js', 'HTML/CSS'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django'] },
+      { label: 'Database', icon: '🗄️', type: 'database', tools: ['SQLite'] },
+      { label: 'Machine Learning', icon: '🤖', type: 'ml', tools: ['Scikit-learn', 'Pandas', 'NumPy', 'Matplotlib'] },
+      { label: 'Reporting', icon: '📄', type: 'other', tools: ['ReportLab (PDF Export)'] }
+    ],
+    tools: ['Python','Django','Scikit-learn','Pandas','NumPy','Chart.js','Matplotlib','Bootstrap 5','ReportLab'],
+    features: ['Predictive Analytics: Multiple ML algorithms for performance prediction','Interactive Dashboard: Real-time analytics and visualizations','Student Management: Complete CRUD operations','CSV Import: Bulk upload student data','Role-Based Access: Separate interfaces for instructors/students','PDF Reporting: Export predictions as professional reports','Data Visualization: 7+ interactive chart types'],
+    outcomes: ['Helped identify at-risk students at an early stage','Reduced manual analysis time for educators','Improved academic monitoring through predictive insights'],
+    images: ['screenshots/edupredict/image1.png','screenshots/edupredict/image2.png','screenshots/edupredict/image3.png','screenshots/edupredict/image4.png','screenshots/edupredict/image5.png','screenshots/edupredict/image6.png','screenshots/edupredict/image7.png']
+  },
+  {
+    id: 3,
+    name: 'ECG Heart Disease Detection System',
+    tech: 'Machine Learning',
+    desc: 'AI-powered ECG analysis system for detecting heart diseases using deep learning and computer vision.',
+    overview: 'A deep learning-based healthcare web application that analyzes ECG images and predicts multiple cardiac conditions with confidence scores. The system features secure authentication, real-time ECG processing, analytics dashboards, and historical health tracking using CNN-based AI models.',
+    github: '#',
+    createdAt: '2026-06-08',
+    contributor: 'K Ansar',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Bootstrap 5', 'Chart.js', 'HTML/CSS'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django', 'REST API'] },
+      { label: 'Database', icon: '🗄️', type: 'database', tools: ['SQLite'] },
+      { label: 'AI / Deep Learning', icon: '🧠', type: 'ml', tools: ['TensorFlow', 'Keras', 'CNN'] }
+    ],
+    tools: ['Django','Python','TensorFlow','Keras','CNN','Bootstrap 5','Chart.js','SQLite','REST API'],
+    features: ['AI-powered ECG image classification','Multi-class heart disease detection','Real-time ECG prediction with confidence scores','Secure user authentication system','Personalized dashboard with ECG history','Health analytics and activity visualization','Batch ECG upload and processing','Export reports in CSV, JSON, and PDF formats'],
+    outcomes: ['Achieved 85%+ validation accuracy using CNN models','Automated ECG analysis for faster diagnosis support','Built scalable AI-based healthcare monitoring system'],
+    images: ['screenshots/ecg-system/image1.png','screenshots/ecg-system/image2.png','screenshots/ecg-system/image3.png','screenshots/ecg-system/image4.png','screenshots/ecg-system/image5.png','screenshots/ecg-system/image6.png','screenshots/ecg-system/image7.png']
+  },
+  {
+    id: 4,
+    name: 'AgriSmart - AI-Driven Precision Farming Assistant',
+    tech: 'Machine Learning',
+    desc: 'AI-powered precision farming assistant for fertilizer optimization and smart irrigation management.',
+    overview: 'AgriSmart is an intelligent agriculture assistance platform built using Django and Machine Learning to help farmers make data-driven farming decisions. The system analyzes soil nutrients, environmental conditions, and crop details to provide accurate fertilizer recommendations and irrigation requirements.',
+    github: '#',
+    createdAt: '2025-07-08',
+    contributor: 'K Ansar',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Bootstrap', 'Chart.js', 'HTML/CSS'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django'] },
+      { label: 'Machine Learning', icon: '🤖', type: 'ml', tools: ['Scikit-learn', 'Pandas', 'NumPy', 'Matplotlib'] }
+    ],
+    tools: ['Python','Django','Scikit-learn','Pandas','NumPy','Bootstrap','Matplotlib','Chart.js'],
+    features: ['AI-powered fertilizer recommendation system','Smart irrigation water requirement prediction','Farmer dashboard with personalized farm profiles','Historical recommendation tracking','Soil health monitoring and analytics','Real-time recommendation generation','Interactive charts and farming insights'],
+    outcomes: ['Achieved ~92% accuracy in fertilizer prediction','Optimized irrigation planning using ML models','Helped farmers reduce resource wastage with data-driven recommendations'],
+    images: ['screenshots/agrismart/image1.png','screenshots/agrismart/image2.png','screenshots/agrismart/image3.png','screenshots/agrismart/image4.png','screenshots/agrismart/image5.png','screenshots/agrismart/image6.png','screenshots/agrismart/image7.png','screenshots/agrismart/image8.png']
+  },
+  {
+    id: 5,
+    name: 'Real Estate Price Prediction System',
+    tech: 'Machine Learning',
+    desc: 'Machine learning-powered real estate valuation platform with predictive analytics and market insights.',
+    overview: 'A comprehensive real estate price prediction system built using Django and Machine Learning to provide accurate property valuation based on location, size, and property characteristics.',
+    github: '#',
+    createdAt: '2025-08-15',
+    contributor: 'Ansar KP',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Bootstrap 5', 'JavaScript'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django', 'Gunicorn', 'Nginx'] },
+      { label: 'Database', icon: '🗄️', type: 'database', tools: ['PostgreSQL'] },
+      { label: 'Machine Learning', icon: '🤖', type: 'ml', tools: ['Scikit-learn'] },
+      { label: 'DevOps', icon: '🚀', type: 'devops', tools: ['Docker'] }
+    ],
+    tools: ['Python','Django','PostgreSQL','Scikit-learn','Bootstrap 5','JavaScript','Docker','Gunicorn','Nginx'],
+    features: ['Location-based property price prediction','Confidence score generation for predictions','Residential and commercial property classification','Market trend analysis and visualization','Historical property comparison tools','Responsive full-stack web interface','High-performance REST API integration'],
+    outcomes: ['Achieved R² score of 0.87 for prediction accuracy','Delivered inference speed below 100ms','Supported 1000+ concurrent users with scalable deployment'],
+    images: ['screenshots/realestate/image1.png','screenshots/realestate/image2.png','screenshots/realestate/image3.png','screenshots/realestate/image4.png','screenshots/realestate/image5.png']
+  },
+  {
+    id: 6,
+    name: 'AI Loan Approval System',
+    tech: 'Machine Learning',
+    desc: 'AI-powered loan eligibility prediction system with real-time risk analysis and approval scoring.',
+    overview: 'An intelligent loan approval web application built with Django and Machine Learning that automates loan eligibility predictions in real-time. The system analyzes applicant data using ML algorithms to generate approval probabilities and risk scores.',
+    github: '#',
+    createdAt: '2026-09-05',
+    contributor: 'Ansar KP',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Bootstrap', 'HTML/CSS'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django'] },
+      { label: 'Database', icon: '🗄️', type: 'database', tools: ['SQLite'] },
+      { label: 'Machine Learning', icon: '🤖', type: 'ml', tools: ['Scikit-learn', 'Pandas', 'NumPy'] }
+    ],
+    tools: ['Python','Django','Scikit-learn','Pandas','NumPy','Bootstrap','SQLite'],
+    features: ['Real-time AI-based loan eligibility prediction','Risk scoring with approval probability analysis','Admin dashboard for application management','Manual decision override functionality','Transparent prediction analysis with key influencing factors','Responsive loan application interface','Machine learning model training and evaluation'],
+    outcomes: ['Automated loan approval analysis with instant predictions','Reduced manual verification and processing time','Improved decision transparency using ML-based insights'],
+    images: ['screenshots/loan/image1.png','screenshots/loan/image2.png','screenshots/loan/image3.png','screenshots/loan/image4.png','screenshots/loan/image5.png']
+  },
+  {
+    id: 7,
+    name: 'Sales Performance Dashboard',
+    tech: 'Data Analytics',
+    desc: 'Interactive Power BI dashboard for analyzing sales, revenue, profit, customers, and product performance.',
+    overview: 'A visually interactive business intelligence dashboard developed using Power BI to analyze sales performance across multiple business dimensions including revenue, profit, customers, products, and sales channels.',
+    github: '#',
+    createdAt: '2026-10-02',
+    contributor: 'Ansar KP',
+    techStack: [
+      { label: 'BI Tool', icon: '📊', type: 'analytics', tools: ['Power BI Desktop'] },
+      { label: 'Data Processing', icon: '🔄', type: 'analytics', tools: ['Power Query', 'DAX'] },
+      { label: 'Modeling', icon: '🗄️', type: 'other', tools: ['Data Modeling', 'Star Schema'] }
+    ],
+    tools: ['Power BI','Power Query','DAX','Data Modeling'],
+    features: ['Revenue and profit tracking dashboard','Customer and product performance analysis','Channel-wise revenue comparison','Geographic revenue visualization using maps','Interactive slicers and dynamic filtering','KPI cards for revenue, quantity sold, and profit','Year-wise and product-wise sales insights'],
+    outcomes: ['Identified wholesale channel as the highest revenue generator','Highlighted top-performing products and customer segments','Delivered actionable insights through interactive business analytics'],
+    images: ['screenshots/salesDA/image1.png','screenshots/salesDA/image2.png','screenshots/salesDA/image3.png','screenshots/salesDA/image4.png']
+  },
+  {
+    id: 8,
+    name: 'Retail Sales Analytics Dashboard',
+    tech: 'Data Analytics',
+    desc: 'Interactive retail sales analytics dashboard built using Excel Pivot Tables, charts, and data visualization techniques.',
+    overview: 'A comprehensive retail sales analytics dashboard developed in Microsoft Excel to analyze business performance across sales, profit, customers, regions, categories, and discount impact.',
+    github: '#',
+    createdAt: '2026-11-12',
+    contributor: 'Ansar KP',
+    techStack: [
+      { label: 'Analytics Tool', icon: '📊', type: 'analytics', tools: ['Microsoft Excel'] },
+      { label: 'Data Processing', icon: '🔄', type: 'analytics', tools: ['Pivot Tables', 'Data Cleaning', 'Conditional Formatting'] },
+      { label: 'Visualization', icon: '📈', type: 'other', tools: ['Charts', 'Data Visualization', 'KPI Tracking'] }
+    ],
+    tools: ['Microsoft Excel','Pivot Tables','Data Cleaning','Charts','Conditional Formatting','Data Visualization'],
+    features: ['Interactive sales performance dashboard','Monthly sales and profit analysis','Discount impact analysis using Pivot Tables','Sub-category ranking based on revenue and profit','Top orders and customer insights','Data cleaning and preprocessing workflows','Region-wise and category-wise sales tracking'],
+    outcomes: ['Generated actionable insights from retail sales data','Simplified business reporting using Excel dashboards','Improved data analysis efficiency with automated Pivot Table summaries'],
+    images: ['screenshots/retail-sales/image1.png','screenshots/retail-sales/image2.png','screenshots/retail-sales/image3.png']
+  },
+  {
+    id: 9,
+    name: 'TaskFlow Pro',
+    tech: 'Next.js',
+    desc: 'Full-stack task management system with JWT authentication, project tracking, and multi-user collaboration.',
+    overview: 'TaskFlow Pro is a modern full-stack task management application built using FastAPI, Next.js, and PostgreSQL. The platform enables teams to manage projects, assign tasks, track progress, and collaborate efficiently through a secure multi-user environment.',
+    github: '#',
+    createdAt: '2025-01-10',
+    contributor: 'K Ansar',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Next.js', 'Tailwind CSS', 'Axios'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['FastAPI', 'Python', 'JWT Auth'] },
+      { label: 'Database', icon: '🗄️', type: 'database', tools: ['PostgreSQL', 'SQLAlchemy'] },
+      { label: 'API Docs', icon: '📄', type: 'other', tools: ['Swagger / OpenAPI'] }
+    ],
+    tools: ['FastAPI','Next.js','PostgreSQL','SQLAlchemy','JWT','Tailwind CSS','Axios','Python','JavaScript'],
+    features: ['JWT-based authentication and authorization','Project and task management system','Task assignment and status tracking','Multi-user collaboration with data isolation','Advanced task filtering by project, status, and assigned user','Responsive dashboard with project analytics','RESTful API documentation using Swagger'],
+    outcomes: ['Streamlined project and task management workflows','Improved team collaboration through centralized task tracking','Built scalable REST APIs with secure authentication'],
+    images: ['screenshots/taskflow/image1.png','screenshots/taskflow/image2.png','screenshots/taskflow/image3.png','screenshots/taskflow/image4.png']
+  },
+  {
+    id: 10,
+    name: 'House Price Prediction Using ML',
+    tech: 'Machine Learning',
+    desc: 'Machine learning-powered house price prediction web application with real-time currency conversion and modern UI.',
+    overview: 'A responsive web application built using Flask and Machine Learning to predict house prices based on housing data. The system provides accurate property price estimations along with real-time USD to INR conversion and price representation in the Indian numbering system.',
+    github: '#',
+    createdAt: '2025-02-18',
+    contributor: 'Ansar KP',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML5', 'CSS3', 'JavaScript'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Flask'] },
+      { label: 'Machine Learning', icon: '🤖', type: 'ml', tools: ['Scikit-learn', 'Pandas', 'NumPy', 'Joblib'] }
+    ],
+    tools: ['Python','Flask','Scikit-learn','Pandas','NumPy','HTML5','CSS3','JavaScript','Joblib'],
+    features: ['Machine learning-based house price prediction','Real-time USD to INR currency conversion','Price conversion into Indian numbering system words','Responsive and modern user interface','Fast prediction processing with trained ML models','Data preprocessing and model integration','Interactive frontend with async JavaScript support'],
+    outcomes: ['Delivered accurate real estate price estimations','Enhanced user experience with real-time conversions','Built a complete ML-powered full-stack prediction system'],
+    images: ['screenshots/house-price/image1.png','screenshots/house-price/image2.png']
+  },
+  {
+id: 11,
+name: 'Online Pizza Ordering System',
+tech: 'MERN',
+desc: 'Modern web-based pizza ordering and delivery platform with real-time tracking, live chat, and secure online payments.',
+overview: 'The Online Pizza Ordering System is a full-stack MERN application developed to provide customers with a fast, reliable, and personalized pizza ordering experience while giving vendors complete control over menu management, pricing, offers, and customer interactions. The platform supports pizza customization, secure Stripe payments, real-time order tracking, live chat support, and location-based delivery estimation using the Haversine formula for optimized delivery services.',
+github: '#',
+createdAt: '2025-08-20',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['React.js', 'HTML', 'CSS', 'JavaScript'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Node.js', 'Express.js'] },
+{ label: 'Database', icon: '🗄️', type: 'database', tools: ['MongoDB'] },
+{ label: 'Real-Time & Services', icon: '🚀', type: 'services', tools: ['WebSockets', 'Stripe', 'jsPDF', 'Haversine Formula'] }
+],
+tools: ['React.js','Node.js','Express.js','MongoDB','JavaScript','WebSockets','Stripe','jsPDF','Git','GitHub'],
+features: [
+'Secure user registration and authentication',
+'Pizza customization with size, crust, toppings, and notes',
+'Cart management and Stripe payment integration',
+'Real-time order tracking with live updates',
+'Location-based delivery estimation using Haversine formula',
+'Live chat support between customers and admin',
+'Admin dashboard for menu, order, and offer management',
+'Automatic PDF invoice generation'
+],
+outcomes: [
+'Reduced dependency on third-party food delivery platforms',
+'Provided vendors complete control over menu, pricing, and customer interactions',
+'Enhanced customer experience with real-time tracking and personalized ordering',
+'Improved delivery optimization using location-based calculations'
+],
+images: [
+'screenshots/pizza/image1.png',
+'screenshots/pizza/image2.png',
+'screenshots/pizza/image3.png',
+'screenshots/pizza/image4.png',
+'screenshots/pizza/image5.png',
+'screenshots/pizza/image6.png',
+'screenshots/pizza/image7.png',
+'screenshots/pizza/image8.png'
+]
+},
+{
+id: 12,
+name: 'Facial Recognition System',
+tech: 'Machine Learning',
+desc: 'Offline facial recognition web application using Flask, OpenCV, and the LBPH face recognition algorithm.',
+overview: 'A facial recognition system developed using Python, Flask, and OpenCV that allows users to add and recognize faces without requiring an internet connection. The application uses the LBPH (Local Binary Pattern Histogram) algorithm for efficient face recognition and supports multiple face detections within a single image. The system provides a simple and user-friendly interface for registering individuals and performing real-time face recognition with confidence scores and bounding box visualization.',
+github: '#',
+createdAt: '2026-03-10',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML', 'CSS', 'JavaScript'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Flask'] },
+{ label: 'Computer Vision', icon: '👁️', type: 'cv', tools: ['OpenCV', 'LBPH Algorithm'] },
+{ label: 'Storage', icon: '🗂️', type: 'storage', tools: ['File-based Image Storage'] }
+],
+tools: ['Python','Flask','OpenCV','LBPH','HTML','CSS','JavaScript'],
+features: [
+'Add new persons using multiple face images',
+'Recognize faces from uploaded images',
+'Support for multiple face detection in a single image',
+'Offline recognition system without internet dependency',
+'LBPH-based facial recognition algorithm',
+'Bounding box visualization with confidence scores',
+'Simple and user-friendly web interface'
+],
+outcomes: [
+'Built a complete offline facial recognition solution',
+'Achieved fast and efficient face recognition using OpenCV',
+'Enhanced user interaction with visual confidence feedback'
+],
+images: [
+'screenshots/face/image1.png',
+'screenshots/face/image2.png',
+'screenshots/face/image3.png'
+]
+},
+{
+id: 13,
+name: 'Food Image–Based Recipe Recommendation System',
+tech: 'Machine Learning',
+desc: 'AI-powered recipe recommendation system using food image similarity and deep learning-based content retrieval.',
+overview: 'A smart food image–based recipe recommendation system developed using Django, TensorFlow, and Computer Vision techniques. Users can upload food images, and the system retrieves the most visually similar recipes from a large dataset using deep learning–based image embeddings and cosine similarity. The project leverages content-based image retrieval instead of traditional classification, making it more effective for real-world food recognition scenarios.',
+github: '#',
+createdAt: '2026-04-12',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML', 'CSS', 'JavaScript', 'Bootstrap'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django', 'Django REST Framework'] },
+{ label: 'Deep Learning', icon: '🧠', type: 'dl', tools: ['TensorFlow', 'Keras', 'EfficientNetB0', 'LSTM'] },
+{ label: 'Computer Vision', icon: '👁️', type: 'cv', tools: ['Image Embeddings', 'Cosine Similarity', 'Content-Based Image Retrieval'] }
+],
+tools: ['Python','Django','Django REST Framework','TensorFlow','Keras','EfficientNetB0','LSTM','OpenCV','Bootstrap'],
+features: [
+'Upload food images for recipe recommendation',
+'Deep learning-based image feature extraction',
+'Content-based image retrieval using cosine similarity',
+'EfficientNetB0 model for visual embeddings',
+'Recipe matching from 13,000+ food images',
+'Interactive and responsive web interface',
+'Optional LSTM-based recipe text generation'
+],
+outcomes: [
+'Built an intelligent food recommendation engine using deep learning',
+'Improved recipe matching accuracy using visual similarity search',
+'Successfully processed and indexed large-scale food image datasets'
+],
+images: [
+'screenshots/food-recipe/image1.png',
+'screenshots/food-recipe/image2.png',
+'screenshots/food-recipe/image3.png'
+]
+},
+  {
+    id: 11,
+    name: 'Plant Disease Detector',
+    tech: 'Machine Learning',
+    desc: 'CNN-based plant disease detection from leaf images with 94% accuracy.',
+    overview: 'A deep learning model trained on the PlantVillage dataset to detect and classify 38 types of plant diseases from leaf images. Uses a fine-tuned VGG16 architecture with transfer learning, exposed via a Flask REST API and a React.js frontend for real-time prediction.',
+    github: 'https://github.com/ansarkp10/plant-disease-ml',
+    createdAt: '2024-09-14',
+    contributor: 'K Ansar',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['React.js'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Flask', 'REST API'] },
+      { label: 'AI / Deep Learning', icon: '🧠', type: 'ml', tools: ['TensorFlow', 'Keras', 'VGG16', 'OpenCV'] },
+      { label: 'Deployment', icon: '🚀', type: 'devops', tools: ['AWS EC2'] }
+    ],
+    tools: ['Python','TensorFlow/Keras','VGG16','Flask','OpenCV','React.js','AWS EC2'],
+    features: ['38 plant disease classification classes','VGG16 transfer learning fine-tuned on PlantVillage','Flask REST API for model inference','React.js frontend with drag-and-drop upload','Real-time prediction with confidence score','Grad-CAM heatmap visualisation'],
+    outcomes: ['94.3% validation accuracy on test set','Inference time under 200ms per image','Successfully deployed on AWS EC2 instance'],
+    images: ['screenshots/plant-disease/image1.jpg','screenshots/plant-disease/image2.jpg','screenshots/plant-disease/image3.jpg','screenshots/plant-disease/image4.jpg']
+  }
+];
+
+const ACTIVITY = [
+  {text: 'Deployed <strong>Plant Disease Detector</strong> on AWS EC2', time: '2 days ago'},
+  {text: 'Published <strong>Sales Analytics Dashboard</strong> on Streamlit', time: '1 week ago'},
+  {text: 'Launched <strong>Portfolio with Blog</strong> on Vercel', time: '2 weeks ago'},
+  {text: 'Completed <strong>Student Attendance System</strong>', time: '3 weeks ago'},
+  {text: 'Shipped <strong>E-Commerce Platform</strong> v1.0', time: '1 month ago'},
+];
+
+// ── APP STATE ──────────────────────────────────────────────────
+let currentFilter = 'All';
+let lightboxImages = [];
+let lightboxIndex = 0;
+
+// ── AUTH ───────────────────────────────────────────────────────
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  const err   = document.getElementById('loginError');
+  if (email === 'ansar300@gmail.com' && pass === 'ak123') {
+    try { localStorage.setItem('akph_session','1'); } catch(e){}
+    document.getElementById('page-login').classList.remove('active');
+    document.getElementById('page-app').classList.add('active');
+    document.body.classList.remove('on-login');
+    err.classList.remove('show');
+    renderAll();
+  } else {
+    err.classList.add('show');
+  }
+}
+
+function doLogout() {
+  try { localStorage.removeItem('akph_session'); } catch(e){}
+  document.getElementById('page-app').classList.remove('active');
+  document.getElementById('page-login').classList.add('active');
+  document.body.classList.add('on-login');
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPass').value  = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('page-login').classList.contains('active')) doLogin();
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    if (localStorage.getItem('akph_session')) {
+      document.getElementById('page-login').classList.remove('active');
+      document.getElementById('page-app').classList.add('active');
+      document.body.classList.remove('on-login');
+      renderAll();
+    }
+  } catch(e) {}
+});
+
+// ── NAVIGATION ─────────────────────────────────────────────────
+function showView(name, el) {
+  ['dashboard','projects','detail','bio'].forEach(v =>
+    document.getElementById('view-'+v).style.display = 'none'
+  );
+  document.getElementById('view-'+name).style.display = 'block';
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (name === 'dashboard') renderDashboard();
+  if (name === 'projects')  renderProjects();
+  closeSidebar();
+}
+
+function backToProjects() {
+  showView('projects', document.querySelectorAll('.nav-item')[1]);
+}
+
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+function closeSidebar()   { document.getElementById('sidebar').classList.remove('open'); }
+
+// ── RENDER ALL ─────────────────────────────────────────────────
+function renderAll() { renderDashboard(); }
+
+// ── DASHBOARD ──────────────────────────────────────────────────
+function renderDashboard() {
+  const stacks = [...new Set(PROJECTS.map(p => p.tech))];
+  const totalImgs = PROJECTS.reduce((a,p) => a + (p.images ? p.images.length : 0), 0);
+
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat-card"><div class="stat-icon green">📁</div><div class="stat-value">${PROJECTS.length}</div><div class="stat-label">Total Projects</div><div class="stat-change">↑ Growing portfolio</div></div>
+    <div class="stat-card"><div class="stat-icon gold">🛠</div><div class="stat-value">${stacks.length}</div><div class="stat-label">Tech Stacks</div><div class="stat-change">Diverse expertise</div></div>
+    <div class="stat-card"><div class="stat-icon blue">🖼</div><div class="stat-value">${totalImgs}</div><div class="stat-label">Screenshots</div><div class="stat-change">Across all projects</div></div>
+    <div class="stat-card"><div class="stat-icon purple">🐙</div><div class="stat-value">${PROJECTS.filter(p=>p.github&&p.github!=='#').length}</div><div class="stat-label">GitHub Repos</div><div class="stat-change">All public</div></div>
+  `;
+
+  document.getElementById('trendingList').innerHTML = PROJECTS.slice(0,4).map((p,i) => `
+    <div class="trending-item" onclick="openDetail(${p.id})">
+      <div class="trending-rank">${i+1}</div>
+      <div class="trending-info">
+        <div class="trending-name">${p.name}</div>
+        <div class="trending-tech">${p.tech}</div>
+      </div>
+      <span style="font-size:.75rem;color:var(--text-muted)">→</span>
+    </div>
+  `).join('');
+
+  document.getElementById('activityFeed').innerHTML = ACTIVITY.map(a => `
+    <div class="activity-item">
+      <div class="activity-dot"></div>
+      <div class="activity-text">${a.text}</div>
+      <div class="activity-time">${a.time}</div>
+    </div>
+  `).join('');
+}
+
+// ── PROJECTS ───────────────────────────────────────────────────
+const STACKS = ['All','MERN','Django','Next.js','Data Analytics','Machine Learning'];
+
+// Top tools to show on card preview (first 4)
+function getCardPreviewTools(p) {
+  const all = [];
+  if (p.techStack) {
+    p.techStack.forEach(layer => layer.tools.forEach(t => all.push(t)));
+  } else if (p.tools) {
+    p.tools.forEach(t => all.push(t));
+  }
+  return all.slice(0, 4);
+}
+
+function renderProjects() {
+  const counts = {};
+  STACKS.forEach(s => counts[s] = s==='All' ? PROJECTS.length : PROJECTS.filter(p=>p.tech===s).length);
+
+  document.getElementById('filterRow').innerHTML = STACKS.map(s => `
+    <div class="filter-chip ${currentFilter===s?'active':''}" onclick="setFilter('${s}')">
+      ${s} <span class="chip-badge">${counts[s]}</span>
+    </div>
+  `).join('');
+
+  const filtered = currentFilter==='All' ? PROJECTS : PROJECTS.filter(p=>p.tech===currentFilter);
+
+  if (!filtered.length) {
+    document.getElementById('projectsGrid').innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><p>No projects in this category</p></div>`;
+    return;
+  }
+
+  document.getElementById('projectsGrid').innerHTML = filtered.map(p => {
+    const firstImg = p.images && p.images.length > 0 ? p.images[0] : null;
+    const imgCount = p.images ? p.images.length : 0;
+    const previewTools = getCardPreviewTools(p);
+    return `
+    <div class="project-card" onclick="openDetail(${p.id})">
+      <div class="card-image-area">
+        ${firstImg
+          ? `<img src="${firstImg}" alt="${p.name}" onerror="this.parentElement.innerHTML='<div class=card-image-placeholder>📂</div>'">`
+          : `<div class="card-image-placeholder">📂</div>`}
+        ${imgCount > 1 ? `<div class="card-image-count">📷 ${imgCount}</div>` : ''}
+      </div>
+      <div class="card-body">
+        <div class="card-tech">${p.tech}</div>
+        <div class="card-title">${p.name}</div>
+        <div class="card-desc">${p.desc}</div>
+        <div class="card-tech-stack">
+          ${previewTools.map(t=>`<span class="card-tech-pill">${t}</span>`).join('')}
+          ${previewTools.length < (p.tools||[]).length ? `<span class="card-tech-pill" style="opacity:.6">+${(p.tools||[]).length - previewTools.length} more</span>` : ''}
+        </div>
+      </div>
+      <div class="card-footer">
+        ${p.github && p.github !== '#'
+          ? `<a href="${p.github}" target="_blank" class="github-link" onclick="event.stopPropagation()">🐙 View on GitHub</a>`
+          : `<span style="font-size:.75rem;color:var(--text-muted)"></span>`}
+        <span style="font-size:.75rem;color:var(--text-muted)">${p.createdAt}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setFilter(f) { currentFilter = f; renderProjects(); }
+
+// ── TECH STACK SECTION ────────────────────────────────────────
+function renderTechStack(p) {
+  const el = document.getElementById('detailTechStack');
+  if (!p.techStack || p.techStack.length === 0) { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--text)">🔧 Technologies Used</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:3px">Stack breakdown by layer</div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--text-muted);background:rgba(34,197,94,0.07);border:1px solid var(--border);border-radius:6px;padding:3px 10px">${p.techStack.reduce((a,l)=>a+l.tools.length,0)} technologies</div>
+    </div>
+    <div class="tech-layer-grid">
+      ${p.techStack.map(layer => `
+        <div class="tech-layer">
+          <div class="tech-layer-header">
+            <span class="tech-layer-icon">${layer.icon}</span>
+            <span class="tech-layer-label">${layer.label}</span>
+          </div>
+          <div class="tech-layer-pills">
+            ${layer.tools.map(t => `<span class="tech-pill ${layer.type}">${t}</span>`).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+// ── GALLERY ───────────────────────────────────────────────────
+let galleryMode = 'grid'; // 'grid' | 'strip'
+
+function renderGallery(p) {
+  const el = document.getElementById('detailGallery');
+  if (!p.images || p.images.length === 0) { el.style.display = 'none'; return; }
+  lightboxImages = p.images;
+  el.style.display = 'block';
+  el.innerHTML = buildGalleryHTML(p.images, galleryMode);
+}
+
+function buildGalleryHTML(images, mode) {
+  const cols = images.length <= 2 ? 'cols-2' : 'cols-3';
+  return `
+    <div class="gallery-header">
+      <div class="gallery-header-left">
+        <div class="gallery-title">🖼 Project Screenshots</div>
+        <div class="gallery-count-badge">${images.length} image${images.length>1?'s':''}</div>
+      </div>
+      <div class="gallery-view-btns">
+        <button class="gallery-view-btn ${mode==='grid'?'active':''}" onclick="switchGalleryMode('grid')" title="Grid view">▦</button>
+        <button class="gallery-view-btn ${mode==='strip'?'active':''}" onclick="switchGalleryMode('strip')" title="Strip view">▤</button>
+      </div>
+    </div>
+    ${mode === 'grid'
+      ? `<div class="gallery-grid-view ${cols}">
+          ${images.map((img, i) => galleryItemHTML(img, i)).join('')}
+         </div>`
+      : `<div class="gallery-strip">
+          ${images.map((img, i) => galleryItemHTML(img, i)).join('')}
+         </div>`
+    }
+  `;
+}
+
+function galleryItemHTML(img, i) {
+  return `
+    <div class="gallery-item" onclick="openLightbox(${i})">
+      <img src="${img}" alt="Screenshot ${i+1}" onerror="this.parentElement.style.display='none'">
+      <div class="gallery-item-overlay">
+        <span class="gallery-item-label">Screenshot ${i+1}</span>
+      </div>
+      <div class="gallery-item-zoom">🔍</div>
+    </div>
+  `;
+}
+
+function switchGalleryMode(mode) {
+  galleryMode = mode;
+  const el = document.getElementById('detailGallery');
+  // Rebuild inner only (preserve outer wrapper)
+  el.innerHTML = buildGalleryHTML(lightboxImages, mode);
+}
+
+// ── DETAIL ────────────────────────────────────────────────────
+function openDetail(id) {
+  const p = PROJECTS.find(x => x.id === id);
+  if (!p) return;
+  showView('detail', null);
+
+  document.getElementById('detailTechBadge').textContent = p.tech;
+  document.getElementById('detailTitle').textContent = p.name;
+  document.getElementById('detailMeta').innerHTML = `
+    <span class="detail-meta-item">📅 ${p.createdAt}</span>
+    <span class="detail-meta-item">👤 ${p.contributor}</span>
+    ${p.github && p.github !== '#' ? `<a href="${p.github}" target="_blank" class="detail-meta-item" style="color:var(--g6)">🐙 GitHub Repository</a>` : ''}
+  `;
+
+  renderTechStack(p);
+  renderGallery(p);
+
+  document.getElementById('detailBody').innerHTML = `
+    <div class="detail-section">
+      <h3>📋 Project Overview</h3>
+      <p>${p.overview}</p>
+    </div>
+    <div class="detail-section">
+      <h3>✨ Key Features</h3>
+      <ul>${(p.features||[]).map(f=>`<li>${f}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-section">
+      <h3>🎯 Outcomes & Impact</h3>
+      <ul>${(p.outcomes||[]).map(o=>`<li>${o}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-section">
+      <h3>👤 Contributor</h3>
+      <p>${p.contributor}</p>
+    </div>
+  `;
+}
+
+// ── LIGHTBOX ──────────────────────────────────────────────────
+function openLightbox(index) {
+  lightboxIndex = index;
+  updateLightbox();
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+
+function lightboxNav(dir) {
+  lightboxIndex = (lightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
+  updateLightbox();
+}
+
+function updateLightbox() {
+  document.getElementById('lightboxImg').src = lightboxImages[lightboxIndex];
+  document.getElementById('lightboxCounter').textContent = `${lightboxIndex+1} / ${lightboxImages.length}`;
+
+  const showNav = lightboxImages.length > 1;
+  document.querySelector('.lightbox-prev').style.display = showNav ? 'flex' : 'none';
+  document.querySelector('.lightbox-next').style.display = showNav ? 'flex' : 'none';
+
+  // Thumbnails
+  const thumbsEl = document.getElementById('lightboxThumbs');
+  thumbsEl.innerHTML = lightboxImages.map((img, i) => `
+    <div class="lb-thumb ${i===lightboxIndex?'active':''}" onclick="lightboxJump(${i})">
+      <img src="${img}" alt="Thumb ${i+1}" onerror="this.parentElement.style.display='none'">
+    </div>
+  `).join('');
+}
+
+function lightboxJump(i) {
+  lightboxIndex = i;
+  updateLightbox();
+}
+
+function handleLightboxClick(e) {
+  if (e.target === e.currentTarget) closeLightbox();
+}
+
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'ArrowRight') lightboxNav(1);
+  if (e.key === 'ArrowLeft')  lightboxNav(-1);
+  if (e.key === 'Escape')     closeLightbox();
+});
+
+// ── TOAST ─────────────────────────────────────────────────────
+function showToast(msg, type='success') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<span>${type==='success'?'✅':'❌'}</span> ${msg}`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+</script>
+</body>
+</html>
