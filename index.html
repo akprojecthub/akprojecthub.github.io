@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AK ProjectHub</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <style>
 :root{
   /* New color scheme - Light Blue, Bright Blue, White */
@@ -489,15 +488,35 @@ body.on-login .sidebar{display:none!important}
 }
 </style>
 </head>
-<body>
+<body class="on-login">
 
 <button class="hamburger" onclick="toggleSidebar()">☰</button>
 <div class="toast-container" id="toastContainer"></div>
 
-
+<!-- LOGIN PAGE -->
+<div id="page-login" class="page active">
+  <div class="login-bg"><div class="orb orb1"></div><div class="orb orb2"></div></div>
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-icon">🚀</div>
+      <h1>AK ProjectHub</h1>
+      <p>Developer Portfolio & Project Showcase</p>
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="loginEmail" placeholder="Enter your email" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="off">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Sign In →</button>
+    <div class="login-error" id="loginError">⚠ Invalid email or password. Please try again.</div>
+  </div>
+</div>
 
 <!-- APP -->
-<div id="page-app" class="page active">
+<div id="page-app" class="page">
   <div class="app-layout">
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-logo">
@@ -1037,7 +1056,31 @@ let currentFilter = 'All';
 let lightboxImages = [];
 let lightboxIndex = 0;
 
+// ── AUTH ───────────────────────────────────────────────────────
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  const err   = document.getElementById('loginError');
+  if (email === 'ansar300@gmail.com' && pass === 'ak123') {
+    try { localStorage.setItem('akph_session','1'); } catch(e){}
+    document.getElementById('page-login').classList.remove('active');
+    document.getElementById('page-app').classList.add('active');
+    document.body.classList.remove('on-login');
+    err.classList.remove('show');
+    renderAll();
+  } else {
+    err.classList.add('show');
+  }
+}
 
+function doLogout() {
+  try { localStorage.removeItem('akph_session'); } catch(e){}
+  document.getElementById('page-app').classList.remove('active');
+  document.getElementById('page-login').classList.add('active');
+  document.body.classList.add('on-login');
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPass').value  = '';
+}
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && document.getElementById('page-login').classList.contains('active')) doLogin();
