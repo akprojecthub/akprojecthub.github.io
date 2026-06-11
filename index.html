@@ -1201,26 +1201,88 @@ images: [
 'screenshots/email-platform/image8.png'
 ]
 },
-  {
-    id: 11,
-    name: 'Plant Disease Detector',
-    tech: 'Machine Learning',
-    desc: 'CNN-based plant disease detection from leaf images with 94% accuracy.',
-    overview: 'A deep learning model trained on the PlantVillage dataset to detect and classify 38 types of plant diseases from leaf images. Uses a fine-tuned VGG16 architecture with transfer learning, exposed via a Flask REST API and a React.js frontend for real-time prediction.',
-    github: 'https://github.com/ansarkp10/plant-disease-ml',
-    createdAt: '2024-09-14',
-    contributor: 'K Ansar',
-    techStack: [
-      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['React.js'] },
-      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Flask', 'REST API'] },
-      { label: 'AI / Deep Learning', icon: '🧠', type: 'ml', tools: ['TensorFlow', 'Keras', 'VGG16', 'OpenCV'] },
-      { label: 'Deployment', icon: '🚀', type: 'devops', tools: ['AWS EC2'] }
-    ],
-    tools: ['Python','TensorFlow/Keras','VGG16','Flask','OpenCV','React.js','AWS EC2'],
-    features: ['38 plant disease classification classes','VGG16 transfer learning fine-tuned on PlantVillage','Flask REST API for model inference','React.js frontend with drag-and-drop upload','Real-time prediction with confidence score','Grad-CAM heatmap visualisation'],
-    outcomes: ['94.3% validation accuracy on test set','Inference time under 200ms per image','Successfully deployed on AWS EC2 instance'],
-    images: ['screenshots/plant-disease/image1.jpg','screenshots/plant-disease/image2.jpg','screenshots/plant-disease/image3.jpg','screenshots/plant-disease/image4.jpg']
-  }
+ {
+id: 19,
+name: 'Content Management System',
+tech: 'Django',
+desc: 'Robust Django-based content management system supporting multimedia content synchronization across devices.',
+overview: 'AKMedia CMS is a versatile content management system built using Django that enables users to manage text, images, videos, PDFs, Word documents, and audio files through a clean and responsive interface. The platform supports real-time synchronization between desktop and mobile devices, advanced search and filtering, inline content management, and secure authentication. Designed for scalability and usability, the system ensures seamless content organization and access across platforms.',
+github: '#',
+createdAt: '2025-06-10',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML5', 'CSS3', 'JavaScript', 'Bootstrap'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django'] },
+{ label: 'Database', icon: '🗄️', type: 'database', tools: ['SQLite3'] },
+{ label: 'Features', icon: '🚀', type: 'features', tools: ['Responsive Design', 'Pagination', 'CSRF Protection'] }
+],
+tools: ['Python','Django','HTML5','CSS3','JavaScript','Bootstrap','SQLite3'],
+features: [
+'Instant synchronization between desktop and mobile devices',
+'Management of text, image, video, PDF, audio, and document content',
+'Advanced search and filtering functionality',
+'Inline formset-based content management',
+'Responsive and user-friendly interface',
+'Pagination support for efficient navigation',
+'Secure authentication and CSRF protection'
+],
+outcomes: [
+'Built a scalable multimedia content management platform',
+'Improved accessibility through cross-device synchronization',
+'Enhanced content organization and management efficiency'
+],
+images: [
+'screenshots/akmedia-cms/image1.png',
+'screenshots/akmedia-cms/image2.png',
+'screenshots/akmedia-cms/image3.png',
+'screenshots/akmedia-cms/image4.png',
+'screenshots/akmedia-cms/image5.png',
+'screenshots/akmedia-cms/image6.png',
+'screenshots/akmedia-cms/image7.png',
+'screenshots/akmedia-cms/image8.png'
+]
+},
+{
+id: 20,
+name: 'File Management System ',
+tech: 'Django',
+desc: 'Secure Django-based file management system with real-time notifications, REST APIs, and encrypted file handling.',
+overview: 'A modern file management system built using Django, Django REST Framework, and Django Channels that enables users to upload, manage, and organize files securely. The platform supports real-time notifications, REST API integration, encrypted file handling, and multi-database support including PostgreSQL and MySQL. Designed for scalability and security, the system provides efficient file operations through a responsive and user-friendly interface.',
+github: '#',
+createdAt: '2025-06-18',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML', 'CSS', 'JavaScript'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django', 'Django REST Framework'] },
+{ label: 'Real-Time Features', icon: '🔔', type: 'realtime', tools: ['Django Channels', 'Redis'] },
+{ label: 'Database & Security', icon: '🗄️', type: 'database', tools: ['PostgreSQL', 'MySQL', 'Cryptography'] }
+],
+tools: ['Python','Django','Django REST Framework','Django Channels','Redis','PostgreSQL','MySQL','Cryptography','Pillow'],
+features: [
+'Secure file upload and management system',
+'REST API support for file operations',
+'Real-time notifications using Django Channels and Redis',
+'Encrypted and secure file handling',
+'User authentication with Django Allauth',
+'Support for PostgreSQL and MySQL databases',
+'Responsive and scalable file management interface'
+],
+outcomes: [
+'Built a secure and scalable file management platform',
+'Implemented real-time notifications for improved user experience',
+'Integrated REST APIs for efficient file operations'
+],
+images: [
+'screenshots/file-manager/image1.png',
+'screenshots/file-manager/image2.png',
+'screenshots/file-manager/image3.png',
+'screenshots/file-manager/image4.png',
+'screenshots/file-manager/image5.png',
+'screenshots/file-manager/image6.png',
+'screenshots/file-manager/image7.png',
+'screenshots/file-manager/image8.png'
+]
+}
 ];
 
 const ACTIVITY = [
