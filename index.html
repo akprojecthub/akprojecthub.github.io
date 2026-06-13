@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AK ProjectHub</title>
-<!-- Favicon - AK Icon -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2338bdf8'/%3E%3Ctext x='50' y='68' font-size='48' font-family='Arial, sans-serif' font-weight='bold' fill='%23020617' text-anchor='middle'%3EAK%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -490,6 +488,20 @@ body.on-login .sidebar{display:none!important}
 }
 </style>
 </head>
+<script>
+  // Remove login requirement - show portfolio directly
+  (function() {
+    // Hide login page, show main app
+    document.getElementById('page-login').classList.remove('active');
+    document.getElementById('page-app').classList.add('active');
+    document.body.classList.remove('on-login');
+    
+    // Render the dashboard
+    if (typeof renderAll === 'function') {
+      renderAll();
+    }
+  })();
+</script>
 <body class="on-login">
 
 <button class="hamburger" onclick="toggleSidebar()">☰</button>
@@ -1042,7 +1054,7 @@ images: [
 'screenshots/gesturemouse/image4.jpg'
 ]
 },
-  {
+{
 id: 15,
 name: 'Employee Management System',
 tech: 'MERN',
@@ -1080,7 +1092,7 @@ images: [
 'screenshots/employee-management/image5.png'
 ]
 },
-  {
+{
 id: 16,
 name: "Pizza App",
 tech: 'Django',
@@ -1120,7 +1132,7 @@ images: [
 'screenshots/pizza-app/image7.png'
 ]
 },
-  {
+{
 id: 17,
 name: 'Real-Time Chat Application',
 tech: 'Django',
@@ -1201,7 +1213,7 @@ images: [
 'screenshots/email-platform/image8.png'
 ]
 },
- {
+{
 id: 19,
 name: 'Content Management System',
 tech: 'Django',
@@ -1634,5 +1646,18 @@ function showToast(msg, type='success') {
   setTimeout(() => el.remove(), 3000);
 }
 </script>
+
+<script>
+  // Remove login requirement - show portfolio directly
+  (function() {
+    document.getElementById('page-login').classList.remove('active');
+    document.getElementById('page-app').classList.add('active');
+    document.body.classList.remove('on-login');
+    if (typeof renderAll === 'function') {
+      renderAll();
+    }
+  })();
+</script>
+
 </body>
 </html>
