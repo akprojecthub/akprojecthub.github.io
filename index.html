@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AK ProjectHub</title>
 
-  <!-- Favicon - AK Icon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2338bdf8'/%3E%3Ctext x='50' y='68' font-size='48' font-family='Arial, sans-serif' font-weight='bold' fill='%23020617' text-anchor='middle'%3EAK%3C/text%3E%3C/svg%3E">
-  
+<!-- Favicon - AK Icon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2338bdf8'/%3E%3Ctext x='50' y='68' font-size='48' font-family='Arial, sans-serif' font-weight='bold' fill='%23020617' text-anchor='middle'%3EAK%3C/text%3E%3C/svg%3E">
+
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -45,7 +45,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--surface)}::-webkit-scrollbar-thumb{background:var(--blue-deep);border-radius:3px}
 
 .app-layout{display:flex;min-height:100vh}
-.sidebar{width:240px;min-height:100vh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;z-index:100;transition:transform .3s}
+.sidebar{width:240px;min-height:100vh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;z-index:100;transition:transform .3s ease}
 .sidebar-logo{padding:1.5rem;border-bottom:1px solid var(--border)}
 .sidebar-logo h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;background:var(--grad-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .sidebar-logo span{font-size:0.7rem;color:var(--text-muted);display:block;margin-top:2px}
@@ -62,8 +62,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sidebar-user-info{flex:1;min-width:0}
 .sidebar-user-name{font-size:0.8rem;font-weight:600;color:var(--text)}
 .sidebar-user-role{font-size:0.7rem;color:var(--text-muted)}
-.main-content{margin-left:240px;flex:1;padding:2rem}
-.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
+.main-content{margin-left:240px;flex:1;padding:2rem;width:calc(100% - 240px);max-width:100%}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
 .topbar-left h1{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text)}
 .topbar-left p{color:var(--text3);font-size:0.85rem;margin-top:2px}
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-bottom:2rem}
@@ -77,7 +77,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .stat-value{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--text)}
 .stat-label{font-size:0.78rem;color:var(--text3);margin-top:2px}
 .stat-change{font-size:0.72rem;color:var(--blue-light);margin-top:0.25rem}
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem}
 .section-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text)}
 .section-subtitle{font-size:0.78rem;color:var(--text-muted);margin-top:2px}
 .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
@@ -92,25 +92,316 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .activity-item{display:flex;align-items:flex-start;gap:1rem;padding:0.875rem 0;border-bottom:1px solid var(--border);font-size:0.82rem}
 .activity-item:last-child{border-bottom:none}
 .activity-dot{width:8px;height:8px;border-radius:50%;background:var(--blue-bright);margin-top:5px;flex-shrink:0}
-.activity-text{flex:1;color:var(--text2);line-height:1.6}
+.activity-text{flex:1;color:var(--text2);line-height:1.6;word-break:break-word}
 .activity-text strong{color:var(--blue-light)}
 .activity-time{color:var(--text-muted);font-size:0.73rem;white-space:nowrap}
-.hamburger{display:none;position:fixed;top:1rem;left:1rem;z-index:200;width:36px;height:36px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:20px;align-items:center;justify-content:center;cursor:pointer}
+.hamburger{display:none;position:fixed;top:1rem;left:1rem;z-index:200;width:40px;height:40px;border-radius:10px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:22px;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
+.hamburger:hover{background:var(--surface2);border-color:var(--border2)}
+.hamburger-close{display:none}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99;backdrop-filter:blur(4px)}
 
-@media (max-width: 768px){
-  .hamburger{display:flex}
-  .sidebar{transform:translateX(-100%);width:220px}
-  .sidebar.open{transform:translateX(0)}
-  .main-content{margin-left:0;padding:1rem;width:100%}
-  .topbar{flex-direction:column;align-items:flex-start;gap:.5rem;margin-top:3rem}
-  .topbar-left h1{font-size:1.2rem}
-  .stats-grid{grid-template-columns:repeat(2,1fr);gap:0.8rem}
-  .dash-grid{flex-direction:column}
+/* Mobile Responsive Styles */
+@media (max-width: 992px) {
+  .dash-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+  
+  .sidebar-overlay.active {
+    display: block;
+  }
+  
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+    box-shadow: 4px 0 30px rgba(0,0,0,0.5);
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+    width: 100%;
+    padding-top: 4.5rem;
+  }
+  
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-top: 0.5rem;
+  }
+  
+  .topbar-left h1 {
+    font-size: 1.3rem;
+  }
+  
+  .topbar-left p {
+    font-size: 0.8rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .stat-card {
+    padding: 1rem 1rem;
+    border-radius: 12px;
+  }
+  
+  .stat-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .stat-label {
+    font-size: 0.7rem;
+  }
+  
+  .stat-change {
+    font-size: 0.65rem;
+  }
+  
+  .dash-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
+  .section-title {
+    font-size: 1rem;
+  }
+  
+  .section-subtitle {
+    font-size: 0.7rem;
+  }
+  
+  .trending-item {
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+  
+  .trending-name {
+    font-size: 0.8rem;
+  }
+  
+  .trending-tech {
+    font-size: 0.65rem;
+  }
+  
+  .trending-rank {
+    width: 24px;
+    height: 24px;
+    font-size: 0.65rem;
+  }
+  
+  .activity-item {
+    padding: 0.65rem 0;
+    font-size: 0.75rem;
+    gap: 0.75rem;
+  }
+  
+  .activity-dot {
+    width: 6px;
+    height: 6px;
+    margin-top: 4px;
+  }
+  
+  .activity-time {
+    font-size: 0.65rem;
+  }
+  
+  .section-header {
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Scrollable activity feed on mobile */
+  .activity-feed {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .activity-feed::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+  .activity-feed::-webkit-scrollbar-track {
+    background: var(--surface);
+  }
+  
+  .activity-feed::-webkit-scrollbar-thumb {
+    background: var(--blue-deep);
+    border-radius: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 0.75rem;
+    padding-top: 4rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  
+  .stat-card {
+    padding: 0.75rem 0.75rem;
+    border-radius: 10px;
+  }
+  
+  .stat-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+    margin-bottom: 0.4rem;
+  }
+  
+  .stat-value {
+    font-size: 1.2rem;
+  }
+  
+  .stat-label {
+    font-size: 0.6rem;
+  }
+  
+  .stat-change {
+    font-size: 0.55rem;
+  }
+  
+  .topbar-left h1 {
+    font-size: 1.1rem;
+  }
+  
+  .topbar-left p {
+    font-size: 0.7rem;
+  }
+  
+  .trending-item {
+    padding: 0.6rem;
+    gap: 0.6rem;
+    border-radius: 10px;
+  }
+  
+  .trending-name {
+    font-size: 0.7rem;
+  }
+  
+  .trending-tech {
+    font-size: 0.6rem;
+  }
+  
+  .trending-rank {
+    width: 20px;
+    height: 20px;
+    font-size: 0.6rem;
+  }
+  
+  .activity-item {
+    padding: 0.5rem 0;
+    font-size: 0.7rem;
+    gap: 0.5rem;
+  }
+  
+  .activity-text {
+    font-size: 0.7rem;
+  }
+  
+  .activity-time {
+    font-size: 0.55rem;
+  }
+  
+  .hamburger {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    top: 0.75rem;
+    left: 0.75rem;
+  }
+  
+  .sidebar {
+    width: 260px;
+  }
+}
+
+/* Landscape phone support */
+@media (max-height: 600px) and (orientation: landscape) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .stat-card {
+    padding: 0.75rem;
+  }
+  
+  .stat-value {
+    font-size: 1.2rem;
+  }
+  
+  .stat-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+  
+  .main-content {
+    padding-top: 4.5rem;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .dash-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar {
+    width: 220px;
+  }
+  
+  .main-content {
+    margin-left: 220px;
+    padding: 1.5rem;
+    width: calc(100% - 220px);
+  }
 }
 </style>
 </head>
 <body>
-<button class="hamburger" onclick="toggleSidebar()">☰</button>
+<!-- Hamburger Button -->
+<button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="Toggle menu">
+  <span id="hamburgerIcon">☰</span>
+</button>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
 <div class="app-layout">
   <aside class="sidebar" id="sidebar">
@@ -140,18 +431,30 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
   <main class="main-content">
     <div class="topbar">
-      <div class="topbar-left"><h1>Dashboard</h1><p>Welcome back, Ansar! Here's your portfolio overview.</p></div>
+      <div class="topbar-left">
+        <h1>Dashboard</h1>
+        <p>Welcome back, Ansar! Here's your portfolio overview.</p>
+      </div>
     </div>
     
     <div class="stats-grid" id="statsGrid"></div>
     
     <div class="dash-grid">
       <div>
-        <div class="section-header"><div><div class="section-title">🔥 Featured Projects</div><div class="section-subtitle">Top picks from the portfolio</div></div></div>
+        <div class="section-header">
+          <div>
+            <div class="section-title">🔥 Featured Projects</div>
+            <div class="section-subtitle">Top picks from the portfolio</div>
+          </div>
+        </div>
         <div class="trending-list" id="trendingList"></div>
       </div>
       <div>
-        <div class="section-header"><div><div class="section-title">⚡ Recent Activity</div></div></div>
+        <div class="section-header">
+          <div>
+            <div class="section-title">⚡ Recent Activity</div>
+          </div>
+        </div>
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.25rem">
           <div class="activity-feed" id="activityFeed"></div>
         </div>
@@ -247,7 +550,7 @@ function renderDashboard() {
         <div class="trending-name">${p.name}</div>
         <div class="trending-tech">${p.tech}</div>
       </div>
-      <span style="font-size:.75rem;color:var(--text-muted)">→</span>
+      <span style="font-size:.75rem;color:var(--text-muted);flex-shrink:0">→</span>
     </a>
   `).join('');
 
@@ -261,9 +564,48 @@ function renderDashboard() {
 }
 
 function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const hamburgerIcon = document.getElementById('hamburgerIcon');
+  
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('active');
+  
+  if (sidebar.classList.contains('open')) {
+    hamburgerIcon.textContent = '✕';
+    document.body.style.overflow = 'hidden';
+  } else {
+    hamburgerIcon.textContent = '☰';
+    document.body.style.overflow = '';
+  }
 }
 
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const hamburgerIcon = document.getElementById('hamburgerIcon');
+  
+  sidebar.classList.remove('open');
+  overlay.classList.remove('active');
+  hamburgerIcon.textContent = '☰';
+  document.body.style.overflow = '';
+}
+
+// Close sidebar on window resize to desktop
+window.addEventListener('resize', function() {
+  if (window.innerWidth > 768) {
+    closeSidebar();
+  }
+});
+
+// Close sidebar on ESC key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeSidebar();
+  }
+});
+
+// Initialize dashboard
 renderDashboard();
 </script>
 </body>
