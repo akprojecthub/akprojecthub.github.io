@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project Detail</title>
+<title>AK ProjectHub</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -228,57 +228,591 @@ const PROJECTS = [
     name: 'AK Store Annual Report Dashboard',
     tech: 'Data Analytics',
     desc: 'Interactive Excel dashboard for annual sales analysis with dynamic charts and business insights.',
-    overview: 'An interactive Microsoft Excel dashboard developed for analyzing AK Store annual sales data for 2026. The project includes dynamic Pivot Charts, Pivot Tables, slicers, and business insights.',
+    overview: 'An interactive Microsoft Excel dashboard developed for analyzing AK Store annual sales data for 2026. The project includes dynamic Pivot Charts, Pivot Tables, slicers, and business insights for tracking sales performance, customer demographics, order status, and revenue distribution across multiple channels and states.',
     github: '#',
     createdAt: '2026-06-14',
     contributor: 'K Ansar',
     techStack: [
       { label: 'Analytics Tool', icon: '📊', type: 'analytics', tools: ['Microsoft Excel'] },
-      { label: 'Data Processing', icon: '🔄', type: 'analytics', tools: ['Pivot Tables', 'Pivot Charts', 'Slicers'] }
+      { label: 'Data Processing', icon: '🔄', type: 'analytics', tools: ['Pivot Tables', 'Pivot Charts', 'Slicers', 'Data Cleaning'] },
+      { label: 'Reporting', icon: '📋', type: 'other', tools: ['Dashboard Design', 'Business Analytics', 'Conditional Formatting'] }
     ],
-    tools: ['Microsoft Excel','Pivot Tables','Pivot Charts','Data Cleaning','Dashboard Design'],
-    features: ['Interactive Excel Dashboard with slicers','Orders vs Sales analysis','Men vs Women sales comparison','Top 5 states revenue tracking'],
-    outcomes: ['Improved business decision-making using data insights','Created dynamic and interactive sales reports'],
-    images: ['screenshots/ak-store-dashboard/image1.png','screenshots/ak-store-dashboard/image2.png']
+    tools: ['Microsoft Excel','Pivot Tables','Pivot Charts','Data Cleaning','Dashboard Design','Business Analytics','Slicers'],
+    features: ['Interactive Excel Dashboard with slicers','Orders vs Sales analysis','Men vs Women sales comparison','Top 5 states revenue tracking','Age & Gender customer analysis','Sales channel performance insights','Order status visualization'],
+    outcomes: ['Improved business decision-making using data insights','Created dynamic and interactive sales reports','Enhanced understanding of business analytics workflows'],
+    images: ['screenshots/ak-store-dashboard/image1.png','screenshots/ak-store-dashboard/image2.png','screenshots/ak-store-dashboard/image3.png','screenshots/ak-store-dashboard/image4.png']
   },
   {
     id: 2,
-    name: 'Student Performance Prediction System',
+    name: 'Student Performance Prediction System (EduPredict)',
     tech: 'Machine Learning',
     desc: 'Django-based web application that predicts student performance using Machine Learning algorithms.',
-    overview: 'A Django-based web application that uses Machine Learning to predict student performance in online courses.',
+    overview: 'A Django-based web application that uses Machine Learning to predict student performance in online courses. The system helps educators identify at-risk students early and implement timely interventions.',
     github: '#',
     createdAt: '2024-03-20',
     contributor: 'K Ansar',
     techStack: [
-      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Bootstrap 5', 'Chart.js'] },
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Bootstrap 5', 'Chart.js', 'HTML/CSS'] },
       { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django'] },
-      { label: 'Machine Learning', icon: '🤖', type: 'ml', tools: ['Scikit-learn', 'Pandas', 'NumPy'] }
+      { label: 'Database', icon: '🗄️', type: 'database', tools: ['SQLite'] },
+      { label: 'Machine Learning', icon: '🤖', type: 'ml', tools: ['Scikit-learn', 'Pandas', 'NumPy', 'Matplotlib'] },
+      { label: 'Reporting', icon: '📄', type: 'other', tools: ['ReportLab (PDF Export)'] }
     ],
-    tools: ['Python','Django','Scikit-learn','Pandas','NumPy','Bootstrap 5'],
-    features: ['Predictive Analytics: Multiple ML algorithms','Interactive Dashboard: Real-time analytics','Student Management: Complete CRUD operations'],
-    outcomes: ['Helped identify at-risk students at an early stage','Reduced manual analysis time for educators'],
-    images: ['screenshots/edupredict/image1.png','screenshots/edupredict/image2.png']
+    tools: ['Python','Django','Scikit-learn','Pandas','NumPy','Chart.js','Matplotlib','Bootstrap 5','ReportLab'],
+    features: ['Predictive Analytics: Multiple ML algorithms for performance prediction','Interactive Dashboard: Real-time analytics and visualizations','Student Management: Complete CRUD operations','CSV Import: Bulk upload student data','Role-Based Access: Separate interfaces for instructors/students','PDF Reporting: Export predictions as professional reports','Data Visualization: 7+ interactive chart types'],
+    outcomes: ['Helped identify at-risk students at an early stage','Reduced manual analysis time for educators','Improved academic monitoring through predictive insights'],
+    images: ['screenshots/edupredict/image1.png','screenshots/edupredict/image2.png','screenshots/edupredict/image3.png','screenshots/edupredict/image4.png','screenshots/edupredict/image5.png','screenshots/edupredict/image6.png','screenshots/edupredict/image7.png']
   },
   {
     id: 3,
     name: 'ECG Heart Disease Detection System',
     tech: 'Machine Learning',
     desc: 'AI-powered ECG analysis system for detecting heart diseases using deep learning and computer vision.',
-    overview: 'A deep learning-based healthcare web application that analyzes ECG images and predicts multiple cardiac conditions.',
+    overview: 'A deep learning-based healthcare web application that analyzes ECG images and predicts multiple cardiac conditions with confidence scores. The system features secure authentication, real-time ECG processing, analytics dashboards, and historical health tracking using CNN-based AI models.',
     github: '#',
     createdAt: '2026-06-08',
     contributor: 'K Ansar',
     techStack: [
-      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Bootstrap 5', 'Chart.js'] },
-      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django'] },
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Bootstrap 5', 'Chart.js', 'HTML/CSS'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django', 'REST API'] },
+      { label: 'Database', icon: '🗄️', type: 'database', tools: ['SQLite'] },
       { label: 'AI / Deep Learning', icon: '🧠', type: 'ml', tools: ['TensorFlow', 'Keras', 'CNN'] }
     ],
-    tools: ['Django','Python','TensorFlow','Keras','CNN','Bootstrap 5','Chart.js'],
-    features: ['AI-powered ECG image classification','Multi-class heart disease detection','Real-time ECG prediction with confidence scores'],
-    outcomes: ['Achieved 85%+ validation accuracy using CNN models','Automated ECG analysis for faster diagnosis support'],
-    images: ['screenshots/ecg-system/image1.png','screenshots/ecg-system/image2.png']
-  }
+    tools: ['Django','Python','TensorFlow','Keras','CNN','Bootstrap 5','Chart.js','SQLite','REST API'],
+    features: ['AI-powered ECG image classification','Multi-class heart disease detection','Real-time ECG prediction with confidence scores','Secure user authentication system','Personalized dashboard with ECG history','Health analytics and activity visualization','Batch ECG upload and processing','Export reports in CSV, JSON, and PDF formats'],
+    outcomes: ['Achieved 85%+ validation accuracy using CNN models','Automated ECG analysis for faster diagnosis support','Built scalable AI-based healthcare monitoring system'],
+    images: ['screenshots/ecg-system/image1.png','screenshots/ecg-system/image2.png','screenshots/ecg-system/image3.png','screenshots/ecg-system/image4.png','screenshots/ecg-system/image5.png','screenshots/ecg-system/image6.png','screenshots/ecg-system/image7.png']
+  },
+  {
+    id: 4,
+    name: 'AgriSmart - AI-Driven Precision Farming Assistant',
+    tech: 'Machine Learning',
+    desc: 'AI-powered precision farming assistant for fertilizer optimization and smart irrigation management.',
+    overview: 'AgriSmart is an intelligent agriculture assistance platform built using Django and Machine Learning to help farmers make data-driven farming decisions. The system analyzes soil nutrients, environmental conditions, and crop details to provide accurate fertilizer recommendations and irrigation requirements.',
+    github: '#',
+    createdAt: '2025-07-08',
+    contributor: 'K Ansar',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Bootstrap', 'Chart.js', 'HTML/CSS'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django'] },
+      { label: 'Machine Learning', icon: '🤖', type: 'ml', tools: ['Scikit-learn', 'Pandas', 'NumPy', 'Matplotlib'] }
+    ],
+    tools: ['Python','Django','Scikit-learn','Pandas','NumPy','Bootstrap','Matplotlib','Chart.js'],
+    features: ['AI-powered fertilizer recommendation system','Smart irrigation water requirement prediction','Farmer dashboard with personalized farm profiles','Historical recommendation tracking','Soil health monitoring and analytics','Real-time recommendation generation','Interactive charts and farming insights'],
+    outcomes: ['Achieved ~92% accuracy in fertilizer prediction','Optimized irrigation planning using ML models','Helped farmers reduce resource wastage with data-driven recommendations'],
+    images: ['screenshots/agrismart/image1.png','screenshots/agrismart/image2.png','screenshots/agrismart/image3.png','screenshots/agrismart/image4.png','screenshots/agrismart/image5.png','screenshots/agrismart/image6.png','screenshots/agrismart/image7.png','screenshots/agrismart/image8.png']
+  },
+  {
+    id: 5,
+    name: 'Real Estate Price Prediction System',
+    tech: 'Machine Learning',
+    desc: 'Machine learning-powered real estate valuation platform with predictive analytics and market insights.',
+    overview: 'A comprehensive real estate price prediction system built using Django and Machine Learning to provide accurate property valuation based on location, size, and property characteristics.',
+    github: '#',
+    createdAt: '2025-08-15',
+    contributor: 'Ansar KP',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Bootstrap 5', 'JavaScript'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django', 'Gunicorn', 'Nginx'] },
+      { label: 'Database', icon: '🗄️', type: 'database', tools: ['PostgreSQL'] },
+      { label: 'Machine Learning', icon: '🤖', type: 'ml', tools: ['Scikit-learn'] },
+      { label: 'DevOps', icon: '🚀', type: 'devops', tools: ['Docker'] }
+    ],
+    tools: ['Python','Django','PostgreSQL','Scikit-learn','Bootstrap 5','JavaScript','Docker','Gunicorn','Nginx'],
+    features: ['Location-based property price prediction','Confidence score generation for predictions','Residential and commercial property classification','Market trend analysis and visualization','Historical property comparison tools','Responsive full-stack web interface','High-performance REST API integration'],
+    outcomes: ['Achieved R² score of 0.87 for prediction accuracy','Delivered inference speed below 100ms','Supported 1000+ concurrent users with scalable deployment'],
+    images: ['screenshots/realestate/image1.png','screenshots/realestate/image2.png','screenshots/realestate/image3.png','screenshots/realestate/image4.png','screenshots/realestate/image5.png']
+  },
+  {
+    id: 6,
+    name: 'AI Loan Approval System',
+    tech: 'Machine Learning',
+    desc: 'AI-powered loan eligibility prediction system with real-time risk analysis and approval scoring.',
+    overview: 'An intelligent loan approval web application built with Django and Machine Learning that automates loan eligibility predictions in real-time. The system analyzes applicant data using ML algorithms to generate approval probabilities and risk scores.',
+    github: '#',
+    createdAt: '2026-09-05',
+    contributor: 'Ansar KP',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Bootstrap', 'HTML/CSS'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django'] },
+      { label: 'Database', icon: '🗄️', type: 'database', tools: ['SQLite'] },
+      { label: 'Machine Learning', icon: '🤖', type: 'ml', tools: ['Scikit-learn', 'Pandas', 'NumPy'] }
+    ],
+    tools: ['Python','Django','Scikit-learn','Pandas','NumPy','Bootstrap','SQLite'],
+    features: ['Real-time AI-based loan eligibility prediction','Risk scoring with approval probability analysis','Admin dashboard for application management','Manual decision override functionality','Transparent prediction analysis with key influencing factors','Responsive loan application interface','Machine learning model training and evaluation'],
+    outcomes: ['Automated loan approval analysis with instant predictions','Reduced manual verification and processing time','Improved decision transparency using ML-based insights'],
+    images: ['screenshots/loan/image1.png','screenshots/loan/image2.png','screenshots/loan/image3.png','screenshots/loan/image4.png','screenshots/loan/image5.png']
+  },
+  {
+    id: 7,
+    name: 'Sales Performance Dashboard',
+    tech: 'Data Analytics',
+    desc: 'Interactive Power BI dashboard for analyzing sales, revenue, profit, customers, and product performance.',
+    overview: 'A visually interactive business intelligence dashboard developed using Power BI to analyze sales performance across multiple business dimensions including revenue, profit, customers, products, and sales channels.',
+    github: '#',
+    createdAt: '2026-10-02',
+    contributor: 'Ansar KP',
+    techStack: [
+      { label: 'BI Tool', icon: '📊', type: 'analytics', tools: ['Power BI Desktop'] },
+      { label: 'Data Processing', icon: '🔄', type: 'analytics', tools: ['Power Query', 'DAX'] },
+      { label: 'Modeling', icon: '🗄️', type: 'other', tools: ['Data Modeling', 'Star Schema'] }
+    ],
+    tools: ['Power BI','Power Query','DAX','Data Modeling'],
+    features: ['Revenue and profit tracking dashboard','Customer and product performance analysis','Channel-wise revenue comparison','Geographic revenue visualization using maps','Interactive slicers and dynamic filtering','KPI cards for revenue, quantity sold, and profit','Year-wise and product-wise sales insights'],
+    outcomes: ['Identified wholesale channel as the highest revenue generator','Highlighted top-performing products and customer segments','Delivered actionable insights through interactive business analytics'],
+    images: ['screenshots/salesDA/image1.png','screenshots/salesDA/image2.png','screenshots/salesDA/image3.png','screenshots/salesDA/image4.png']
+  },
+  {
+    id: 8,
+    name: 'Retail Sales Analytics Dashboard',
+    tech: 'Data Analytics',
+    desc: 'Interactive retail sales analytics dashboard built using Excel Pivot Tables, charts, and data visualization techniques.',
+    overview: 'A comprehensive retail sales analytics dashboard developed in Microsoft Excel to analyze business performance across sales, profit, customers, regions, categories, and discount impact.',
+    github: '#',
+    createdAt: '2026-11-12',
+    contributor: 'Ansar KP',
+    techStack: [
+      { label: 'Analytics Tool', icon: '📊', type: 'analytics', tools: ['Microsoft Excel'] },
+      { label: 'Data Processing', icon: '🔄', type: 'analytics', tools: ['Pivot Tables', 'Data Cleaning', 'Conditional Formatting'] },
+      { label: 'Visualization', icon: '📈', type: 'other', tools: ['Charts', 'Data Visualization', 'KPI Tracking'] }
+    ],
+    tools: ['Microsoft Excel','Pivot Tables','Data Cleaning','Charts','Conditional Formatting','Data Visualization'],
+    features: ['Interactive sales performance dashboard','Monthly sales and profit analysis','Discount impact analysis using Pivot Tables','Sub-category ranking based on revenue and profit','Top orders and customer insights','Data cleaning and preprocessing workflows','Region-wise and category-wise sales tracking'],
+    outcomes: ['Generated actionable insights from retail sales data','Simplified business reporting using Excel dashboards','Improved data analysis efficiency with automated Pivot Table summaries'],
+    images: ['screenshots/retail-sales/image1.png','screenshots/retail-sales/image2.png','screenshots/retail-sales/image3.png']
+  },
+  {
+    id: 9,
+    name: 'TaskFlow Pro',
+    tech: 'Next.js',
+    desc: 'Full-stack task management system with JWT authentication, project tracking, and multi-user collaboration.',
+    overview: 'TaskFlow Pro is a modern full-stack task management application built using FastAPI, Next.js, and PostgreSQL. The platform enables teams to manage projects, assign tasks, track progress, and collaborate efficiently through a secure multi-user environment.',
+    github: '#',
+    createdAt: '2025-01-10',
+    contributor: 'K Ansar',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['Next.js', 'Tailwind CSS', 'Axios'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['FastAPI', 'Python', 'JWT Auth'] },
+      { label: 'Database', icon: '🗄️', type: 'database', tools: ['PostgreSQL', 'SQLAlchemy'] },
+      { label: 'API Docs', icon: '📄', type: 'other', tools: ['Swagger / OpenAPI'] }
+    ],
+    tools: ['FastAPI','Next.js','PostgreSQL','SQLAlchemy','JWT','Tailwind CSS','Axios','Python','JavaScript'],
+    features: ['JWT-based authentication and authorization','Project and task management system','Task assignment and status tracking','Multi-user collaboration with data isolation','Advanced task filtering by project, status, and assigned user','Responsive dashboard with project analytics','RESTful API documentation using Swagger'],
+    outcomes: ['Streamlined project and task management workflows','Improved team collaboration through centralized task tracking','Built scalable REST APIs with secure authentication'],
+    images: ['screenshots/taskflow/image1.png','screenshots/taskflow/image2.png','screenshots/taskflow/image3.png','screenshots/taskflow/image4.png']
+  },
+  {
+    id: 10,
+    name: 'House Price Prediction Using ML',
+    tech: 'Machine Learning',
+    desc: 'Machine learning-powered house price prediction web application with real-time currency conversion and modern UI.',
+    overview: 'A responsive web application built using Flask and Machine Learning to predict house prices based on housing data. The system provides accurate property price estimations along with real-time USD to INR conversion and price representation in the Indian numbering system.',
+    github: '#',
+    createdAt: '2025-02-18',
+    contributor: 'Ansar KP',
+    techStack: [
+      { label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML5', 'CSS3', 'JavaScript'] },
+      { label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Flask'] },
+      { label: 'Machine Learning', icon: '🤖', type: 'ml', tools: ['Scikit-learn', 'Pandas', 'NumPy', 'Joblib'] }
+    ],
+    tools: ['Python','Flask','Scikit-learn','Pandas','NumPy','HTML5','CSS3','JavaScript','Joblib'],
+    features: ['Machine learning-based house price prediction','Real-time USD to INR currency conversion','Price conversion into Indian numbering system words','Responsive and modern user interface','Fast prediction processing with trained ML models','Data preprocessing and model integration','Interactive frontend with async JavaScript support'],
+    outcomes: ['Delivered accurate real estate price estimations','Enhanced user experience with real-time conversions','Built a complete ML-powered full-stack prediction system'],
+    images: ['screenshots/house-price/image1.png','screenshots/house-price/image2.png']
+  },
+  {
+id: 11,
+name: 'Online Pizza Ordering System',
+tech: 'MERN',
+desc: 'Modern web-based pizza ordering and delivery platform with real-time tracking, live chat, and secure online payments.',
+overview: 'The Online Pizza Ordering System is a full-stack MERN application developed to provide customers with a fast, reliable, and personalized pizza ordering experience while giving vendors complete control over menu management, pricing, offers, and customer interactions. The platform supports pizza customization, secure Stripe payments, real-time order tracking, live chat support, and location-based delivery estimation using the Haversine formula for optimized delivery services.',
+github: '#',
+createdAt: '2025-08-20',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['React.js', 'HTML', 'CSS', 'JavaScript'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Node.js', 'Express.js'] },
+{ label: 'Database', icon: '🗄️', type: 'database', tools: ['MongoDB'] },
+{ label: 'Real-Time & Services', icon: '🚀', type: 'services', tools: ['WebSockets', 'Stripe', 'jsPDF', 'Haversine Formula'] }
+],
+tools: ['React.js','Node.js','Express.js','MongoDB','JavaScript','WebSockets','Stripe','jsPDF','Git','GitHub'],
+features: [
+'Secure user registration and authentication',
+'Pizza customization with size, crust, toppings, and notes',
+'Cart management and Stripe payment integration',
+'Real-time order tracking with live updates',
+'Location-based delivery estimation using Haversine formula',
+'Live chat support between customers and admin',
+'Admin dashboard for menu, order, and offer management',
+'Automatic PDF invoice generation'
+],
+outcomes: [
+'Reduced dependency on third-party food delivery platforms',
+'Provided vendors complete control over menu, pricing, and customer interactions',
+'Enhanced customer experience with real-time tracking and personalized ordering',
+'Improved delivery optimization using location-based calculations'
+],
+images: [
+'screenshots/pizza/image1.png',
+'screenshots/pizza/image2.png',
+'screenshots/pizza/image3.png',
+'screenshots/pizza/image4.png',
+'screenshots/pizza/image5.png',
+'screenshots/pizza/image6.png',
+'screenshots/pizza/image7.png',
+'screenshots/pizza/image8.png'
+]
+},
+{
+id: 12,
+name: 'Facial Recognition System',
+tech: 'Machine Learning',
+desc: 'Offline facial recognition web application using Flask, OpenCV, and the LBPH face recognition algorithm.',
+overview: 'A facial recognition system developed using Python, Flask, and OpenCV that allows users to add and recognize faces without requiring an internet connection. The application uses the LBPH (Local Binary Pattern Histogram) algorithm for efficient face recognition and supports multiple face detections within a single image. The system provides a simple and user-friendly interface for registering individuals and performing real-time face recognition with confidence scores and bounding box visualization.',
+github: '#',
+createdAt: '2026-03-10',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML', 'CSS', 'JavaScript'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Flask'] },
+{ label: 'Computer Vision', icon: '👁️', type: 'cv', tools: ['OpenCV', 'LBPH Algorithm'] },
+{ label: 'Storage', icon: '🗂️', type: 'storage', tools: ['File-based Image Storage'] }
+],
+tools: ['Python','Flask','OpenCV','LBPH','HTML','CSS','JavaScript'],
+features: [
+'Add new persons using multiple face images',
+'Recognize faces from uploaded images',
+'Support for multiple face detection in a single image',
+'Offline recognition system without internet dependency',
+'LBPH-based facial recognition algorithm',
+'Bounding box visualization with confidence scores',
+'Simple and user-friendly web interface'
+],
+outcomes: [
+'Built a complete offline facial recognition solution',
+'Achieved fast and efficient face recognition using OpenCV',
+'Enhanced user interaction with visual confidence feedback'
+],
+images: [
+'screenshots/face/image1.png',
+'screenshots/face/image2.png',
+'screenshots/face/image3.png'
+]
+},
+{
+id: 13,
+name: 'Food Image–Based Recipe Recommendation System',
+tech: 'Machine Learning',
+desc: 'AI-powered recipe recommendation system using food image similarity and deep learning-based content retrieval.',
+overview: 'A smart food image–based recipe recommendation system developed using Django, TensorFlow, and Computer Vision techniques. Users can upload food images, and the system retrieves the most visually similar recipes from a large dataset using deep learning–based image embeddings and cosine similarity. The project leverages content-based image retrieval instead of traditional classification, making it more effective for real-world food recognition scenarios.',
+github: '#',
+createdAt: '2026-04-12',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML', 'CSS', 'JavaScript', 'Bootstrap'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django', 'Django REST Framework'] },
+{ label: 'Deep Learning', icon: '🧠', type: 'dl', tools: ['TensorFlow', 'Keras', 'EfficientNetB0', 'LSTM'] },
+{ label: 'Computer Vision', icon: '👁️', type: 'cv', tools: ['Image Embeddings', 'Cosine Similarity', 'Content-Based Image Retrieval'] }
+],
+tools: ['Python','Django','Django REST Framework','TensorFlow','Keras','EfficientNetB0','LSTM','OpenCV','Bootstrap'],
+features: [
+'Upload food images for recipe recommendation',
+'Deep learning-based image feature extraction',
+'Content-based image retrieval using cosine similarity',
+'EfficientNetB0 model for visual embeddings',
+'Recipe matching from 13,000+ food images',
+'Interactive and responsive web interface',
+'Optional LSTM-based recipe text generation'
+],
+outcomes: [
+'Built an intelligent food recommendation engine using deep learning',
+'Improved recipe matching accuracy using visual similarity search',
+'Successfully processed and indexed large-scale food image datasets'
+],
+images: [
+'screenshots/food-recipe/image1.png',
+'screenshots/food-recipe/image2.png',
+'screenshots/food-recipe/image3.png'
+]
+},
+{
+id: 14,
+name: 'GestureMouse – Virtual Mouse Using Hand Gesture Recognition',
+tech: 'Machine Learning',
+desc: 'AI-powered virtual mouse system that controls cursor movement and clicks using real-time hand gesture recognition.',
+overview: 'GestureMouse is a computer vision–based virtual mouse system developed using Python, Django, OpenCV, and MediaPipe. The application allows users to control the system mouse through hand gestures captured via webcam without requiring a physical mouse device. The project integrates real-time hand landmark detection with gesture recognition to perform mouse operations such as cursor movement and clicking. A Django-based web interface is used to start and stop the virtual mouse engine seamlessly.',
+github: '#',
+createdAt: '2026-05-08',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML', 'CSS', 'JavaScript'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django'] },
+{ label: 'Computer Vision', icon: '👁️', type: 'cv', tools: ['OpenCV', 'MediaPipe'] },
+{ label: 'Automation', icon: '🖱️', type: 'automation', tools: ['PyAutoGUI', 'NumPy'] }
+],
+tools: ['Python','Django','OpenCV','MediaPipe','PyAutoGUI','NumPy','HTML','CSS','JavaScript'],
+features: [
+'Real-time hand gesture recognition using webcam',
+'Virtual mouse cursor movement using hand tracking',
+'Gesture-based mouse click actions',
+'Machine learning–based hand landmark detection',
+'Django web interface to control the virtual mouse',
+'Offline system without internet dependency',
+'Start and stop ML engine dynamically from browser'
+],
+outcomes: [
+'Successfully controlled system mouse using hand gestures',
+'Integrated real-time computer vision with web technologies',
+'Demonstrated practical human-computer interaction using AI'
+],
+images: [
+'screenshots/gesturemouse/image1.jpg',
+'screenshots/gesturemouse/image2.jpg',
+'screenshots/gesturemouse/image3.jpg',
+'screenshots/gesturemouse/image4.jpg'
+]
+},
+{
+id: 15,
+name: 'Employee Management System',
+tech: 'MERN',
+desc: 'Full-stack employee management system built using MongoDB, Express.js, React.js, and Node.js for managing employees, departments, and workplace operations.',
+overview: 'A modern Employee Management System developed using the MERN Stack that helps organizations efficiently manage employee records, departments, attendance, and administrative operations. The system provides secure authentication, responsive dashboards, CRUD functionalities, and role-based management features for administrators and employees. Designed with a scalable architecture and user-friendly interface, the application streamlines HR and workforce management processes.',
+github: '#',
+createdAt: '2025-06-15',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['React.js', 'HTML5', 'CSS3', 'JavaScript'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Node.js', 'Express.js'] },
+{ label: 'Database', icon: '🗄️', type: 'database', tools: ['MongoDB'] },
+{ label: 'Authentication', icon: '🔐', type: 'auth', tools: ['JWT Authentication', 'bcrypt'] }
+],
+tools: ['MongoDB','Express.js','React.js','Node.js','JavaScript','JWT','bcrypt'],
+features: [
+'Employee registration and profile management',
+'Role-based authentication and authorization',
+'Department and employee CRUD operations',
+'Attendance and employee record tracking',
+'Responsive admin dashboard interface',
+'Search and filter employee data',
+'Secure login system with JWT authentication'
+],
+outcomes: [
+'Simplified employee and department management workflows',
+'Improved data organization using centralized management system',
+'Built a scalable full-stack MERN application with secure authentication'
+],
+images: [
+'screenshots/employee-management/image1.png',
+'screenshots/employee-management/image2.png',
+'screenshots/employee-management/image3.png',
+'screenshots/employee-management/image4.png',
+'screenshots/employee-management/image5.png'
+]
+},
+{
+id: 16,
+name: "Pizza App",
+tech: 'Django',
+desc: 'Modern Django-based online pizza ordering system with real-time order tracking, invoice generation, and secure user authentication.',
+overview: "AK's Pizza App is a full-stack Django web application that enables users to browse, customize, and order pizzas online through a responsive and user-friendly interface. The system includes secure authentication, real-time order tracking, automatic invoice generation, and live notifications using Django Channels. Designed for seamless customer experience, the platform supports efficient order management and responsive design across all devices.",
+github: '#',
+createdAt: '2025-04-28',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML5', 'CSS3', 'JavaScript', 'Bootstrap'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django'] },
+{ label: 'Database', icon: '🗄️', type: 'database', tools: ['SQLite'] },
+{ label: 'Real-Time Features', icon: '🚀', type: 'realtime', tools: ['Django Channels', 'WebSockets'] }
+],
+tools: ['Python','Django','HTML5','CSS3','JavaScript','Bootstrap','SQLite','Django Channels','WebSockets'],
+features: [
+'Online pizza ordering and cart management',
+'Secure user authentication and profile management',
+'Real-time order status tracking',
+'Automatic printable invoice generation',
+'Responsive design for desktop and mobile devices',
+'Live order notifications using Django Channels',
+'Admin dashboard for managing pizza orders'
+],
+outcomes: [
+'Built a complete full-stack food ordering platform',
+'Improved user experience with real-time order updates',
+'Implemented secure and scalable online ordering workflow'
+],
+images: [
+'screenshots/pizza-app/image1.png',
+'screenshots/pizza-app/image2.png',
+'screenshots/pizza-app/image3.png',
+'screenshots/pizza-app/image4.png',
+'screenshots/pizza-app/image5.png',
+'screenshots/pizza-app/image6.png',
+'screenshots/pizza-app/image7.png'
+]
+},
+{
+id: 17,
+name: 'Real-Time Chat Application',
+tech: 'Django',
+desc: 'Real-time chat application built using Django and Django Channels with room-based messaging and live communication.',
+overview: 'A full-stack real-time chat application developed using Django, Django Channels, and Redis. The platform enables users to create and join chat rooms, exchange messages instantly using WebSockets, and interact through a responsive and user-friendly interface. The system also supports authentication, active user tracking, profile avatars, and scalable real-time communication using Redis integration.',
+github: '#',
+createdAt: '2025-05-20',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML', 'CSS', 'JavaScript'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django', 'Django Channels'] },
+{ label: 'Real-Time Communication', icon: '💬', type: 'realtime', tools: ['WebSockets', 'Redis'] },
+{ label: 'Authentication', icon: '🔐', type: 'auth', tools: ['Django Authentication'] }
+],
+tools: ['Python','Django','Django Channels','Redis','WebSockets','HTML','CSS','JavaScript'],
+features: [
+'Secure user authentication and registration',
+'Real-time messaging using WebSockets',
+'Create and join multiple chat rooms',
+'Active users list inside chat rooms',
+'Profile avatar upload support',
+'Responsive chat interface for all devices',
+'Live communication powered by Django Channels'
+],
+outcomes: [
+'Built a scalable real-time messaging platform',
+'Integrated WebSocket-based live communication',
+'Enhanced user interaction with room-based chat system'
+],
+images: [
+'screenshots/chat-app/image1.png',
+'screenshots/chat-app/image2.png',
+'screenshots/chat-app/image3.png',
+'screenshots/chat-app/image4.png',
+'screenshots/chat-app/image5.png',
+'screenshots/chat-app/image6.png',
+'screenshots/chat-app/image7.png'
+]
+},
+{
+id: 18,
+name: 'Email Sending Platform',
+tech: 'Django',
+desc: 'Web-based email management and sending platform with attachment support and organized email folders.',
+overview: 'A full-stack email sending platform developed using Django that allows users to compose, send, organize, and manage emails efficiently. The application supports secure authentication, file attachments, categorized email folders, and detailed email views with attachment previews. Designed with a clean and user-friendly interface, the system simplifies email management and communication workflows.',
+github: '#',
+createdAt: '2025-06-02',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML', 'CSS', 'JavaScript'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django'] },
+{ label: 'Database', icon: '🗄️', type: 'database', tools: ['SQLite'] },
+{ label: 'Utilities', icon: '📧', type: 'utilities', tools: ['Django Template Filters', 'File Attachments'] }
+],
+tools: ['Python','Django','HTML','CSS','JavaScript','SQLite'],
+features: [
+'Secure user registration and authentication',
+'Compose and send emails with attachments',
+'Detailed email view with attachment previews',
+'Organize emails into Inbox, Drafts, Starred, Important, and Bin',
+'Custom template filters for attachment handling',
+'Responsive and user-friendly email interface',
+'File upload and attachment management system'
+],
+outcomes: [
+'Built a functional web-based email communication platform',
+'Improved email organization with categorized folders',
+'Enhanced user experience with attachment previews and secure authentication'
+],
+images: [
+'screenshots/email-platform/image1.png',
+'screenshots/email-platform/image2.png',
+'screenshots/email-platform/image3.png',
+'screenshots/email-platform/image4.png',
+'screenshots/email-platform/image5.png',
+'screenshots/email-platform/image6.png',
+'screenshots/email-platform/image7.png',
+'screenshots/email-platform/image8.png'
+]
+},
+{
+id: 19,
+name: 'Content Management System',
+tech: 'Django',
+desc: 'Robust Django-based content management system supporting multimedia content synchronization across devices.',
+overview: 'AKMedia CMS is a versatile content management system built using Django that enables users to manage text, images, videos, PDFs, Word documents, and audio files through a clean and responsive interface. The platform supports real-time synchronization between desktop and mobile devices, advanced search and filtering, inline content management, and secure authentication. Designed for scalability and usability, the system ensures seamless content organization and access across platforms.',
+github: '#',
+createdAt: '2025-06-10',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML5', 'CSS3', 'JavaScript', 'Bootstrap'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django'] },
+{ label: 'Database', icon: '🗄️', type: 'database', tools: ['SQLite3'] },
+{ label: 'Features', icon: '🚀', type: 'features', tools: ['Responsive Design', 'Pagination', 'CSRF Protection'] }
+],
+tools: ['Python','Django','HTML5','CSS3','JavaScript','Bootstrap','SQLite3'],
+features: [
+'Instant synchronization between desktop and mobile devices',
+'Management of text, image, video, PDF, audio, and document content',
+'Advanced search and filtering functionality',
+'Inline formset-based content management',
+'Responsive and user-friendly interface',
+'Pagination support for efficient navigation',
+'Secure authentication and CSRF protection'
+],
+outcomes: [
+'Built a scalable multimedia content management platform',
+'Improved accessibility through cross-device synchronization',
+'Enhanced content organization and management efficiency'
+],
+images: [
+'screenshots/akmedia-cms/image1.png',
+'screenshots/akmedia-cms/image2.png',
+'screenshots/akmedia-cms/image3.png',
+'screenshots/akmedia-cms/image4.png',
+'screenshots/akmedia-cms/image5.png',
+'screenshots/akmedia-cms/image6.png',
+'screenshots/akmedia-cms/image7.png',
+'screenshots/akmedia-cms/image8.png'
+]
+},
+{
+id: 20,
+name: 'File Management System ',
+tech: 'Django',
+desc: 'Secure Django-based file management system with real-time notifications, REST APIs, and encrypted file handling.',
+overview: 'A modern file management system built using Django, Django REST Framework, and Django Channels that enables users to upload, manage, and organize files securely. The platform supports real-time notifications, REST API integration, encrypted file handling, and multi-database support including PostgreSQL and MySQL. Designed for scalability and security, the system provides efficient file operations through a responsive and user-friendly interface.',
+github: '#',
+createdAt: '2025-06-18',
+contributor: 'Ansar KP',
+techStack: [
+{ label: 'Frontend', icon: '🎨', type: 'frontend', tools: ['HTML', 'CSS', 'JavaScript'] },
+{ label: 'Backend', icon: '⚙️', type: 'backend', tools: ['Python', 'Django', 'Django REST Framework'] },
+{ label: 'Real-Time Features', icon: '🔔', type: 'realtime', tools: ['Django Channels', 'Redis'] },
+{ label: 'Database & Security', icon: '🗄️', type: 'database', tools: ['PostgreSQL', 'MySQL', 'Cryptography'] }
+],
+tools: ['Python','Django','Django REST Framework','Django Channels','Redis','PostgreSQL','MySQL','Cryptography','Pillow'],
+features: [
+'Secure file upload and management system',
+'REST API support for file operations',
+'Real-time notifications using Django Channels and Redis',
+'Encrypted and secure file handling',
+'User authentication with Django Allauth',
+'Support for PostgreSQL and MySQL databases',
+'Responsive and scalable file management interface'
+],
+outcomes: [
+'Built a secure and scalable file management platform',
+'Implemented real-time notifications for improved user experience',
+'Integrated REST APIs for efficient file operations'
+],
+images: [
+'screenshots/file-manager/image1.png',
+'screenshots/file-manager/image2.png',
+'screenshots/file-manager/image3.png',
+'screenshots/file-manager/image4.png',
+'screenshots/file-manager/image5.png',
+'screenshots/file-manager/image6.png',
+'screenshots/file-manager/image7.png',
+'screenshots/file-manager/image8.png'
+]
+}
 ];
 
 let lightboxImages = [];
