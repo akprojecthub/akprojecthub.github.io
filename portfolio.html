@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AK Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue-light: #7dd3fc;
+  --blue-bright: #0ea5e9;
+  --blue-deep: #0284c7;
+  --blue-dark: #0369a1;
+  --blue-surface: #082f49;
+  --blue-surface-light: #0c4a6e;
+  --white: #ffffff;
+  --white-muted: #f0f9ff;
+  --white-dim: #e0f2fe;
+  --gold: #fbbf24;
+  --red: #ef4444;
+  --bg: #0c0f15;
+  --bg-deep: #070a0f;
+  --surface: #0f172a;
+  --surface2: #1e293b;
+  --surface3: #2d3a5e;
+  --border: rgba(14, 165, 233, 0.2);
+  --border2: rgba(14, 165, 233, 0.4);
+  --text: #ffffff;
+  --text2: #e0f2fe;
+  --text3: #bae6fd;
+  --text-muted: #7dd3fc;
+  --shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+  --glow: 0 0 20px rgba(14, 165, 233, 0.2);
+  --grad-primary: linear-gradient(135deg, #0ea5e9, #3b82f6);
+  --grad-secondary: linear-gradient(135deg, #0284c7, #0ea5e9);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(14,165,233,0.08),transparent);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--surface)}::-webkit-scrollbar-thumb{background:var(--blue-deep);border-radius:3px}
+
+.app-layout{display:flex;min-height:100vh}
+.sidebar{width:240px;min-height:100vh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;z-index:100;transition:transform .3s}
+.sidebar-logo{padding:1.5rem;border-bottom:1px solid var(--border)}
+.sidebar-logo h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;background:var(--grad-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sidebar-logo span{font-size:0.7rem;color:var(--text-muted);display:block;margin-top:2px}
+.sidebar-nav{flex:1;padding:1rem 0}
+.nav-section-label{padding:0.5rem 1.25rem;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);font-weight:600}
+.nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.65rem 1.25rem;color:var(--text2);cursor:pointer;transition:all .2s;border-left:3px solid transparent;font-size:0.875rem;font-weight:500;text-decoration:none}
+.nav-item:hover{background:rgba(14,165,233,0.1);color:var(--blue-light);border-left-color:var(--blue-bright)}
+.nav-item.active{background:rgba(14,165,233,0.15);color:var(--blue-light);border-left-color:var(--blue-bright)}
+.nav-icon{font-size:16px}
+.sidebar-footer{padding:1.25rem;border-top:1px solid var(--border)}
+.sidebar-user{display:flex;align-items:center;gap:0.75rem}
+.sidebar-avatar{width:36px;height:36px;background:var(--grad-primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;overflow:hidden;color:white}
+.sidebar-avatar img{width:100%;height:100%;object-fit:cover}
+.sidebar-user-info{flex:1;min-width:0}
+.sidebar-user-name{font-size:0.8rem;font-weight:600;color:var(--text)}
+.sidebar-user-role{font-size:0.7rem;color:var(--text-muted)}
+.main-content{margin-left:240px;flex:1;padding:2rem}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
+.topbar-left h1{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text)}
+.topbar-left p{color:var(--text3);font-size:0.85rem;margin-top:2px}
+.bio-hero{background:linear-gradient(135deg,var(--surface),var(--surface2));border:1px solid var(--border);border-radius:24px;padding:2.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;position:relative;overflow:hidden}
+.bio-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(14,165,233,0.08),transparent);pointer-events:none}
+.bio-avatar{width:130px;height:130px;border-radius:50%;background:var(--grad-primary);display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:800;flex-shrink:0;border:3px solid var(--border2);box-shadow:0 0 30px rgba(14,165,233,0.25);overflow:hidden;color:white}
+.bio-avatar img{width:100%;height:100%;object-fit:cover}
+.bio-info h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--text)}
+.bio-role{color:var(--blue-light);font-size:0.9rem;font-weight:500;margin:0.25rem 0}
+.bio-loc{color:var(--text3);font-size:0.82rem;display:flex;align-items:center;gap:0.35rem}
+.bio-socials{display:flex;gap:0.75rem;margin-top:1rem;flex-wrap:wrap}
+.social-btn{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 1.1rem;border-radius:9px;border:1px solid var(--border2);background:rgba(14,165,233,0.05);color:var(--text2);text-decoration:none;font-size:0.8rem;font-weight:500;transition:.2s}
+.social-btn:hover{border-color:var(--blue-bright);color:var(--blue-light);transform:translateY(-2px)}
+.bio-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem}
+.bio-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem}
+.bio-card h3{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--blue-light);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
+.bio-card p{font-size:0.85rem;color:var(--text2);line-height:1.8}
+.skills-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+.skill-tag{padding:0.3rem 0.8rem;border-radius:6px;font-size:0.75rem;font-weight:600;border:1px solid}
+.skill-tag.green{background:rgba(14,165,233,0.1);border-color:rgba(14,165,233,0.25);color:var(--blue-light)}
+.skill-tag.blue{background:rgba(59,130,246,0.12);border-color:rgba(59,130,246,0.25);color:#93c5fd}
+.skill-tag.gold{background:rgba(14,165,233,0.1);border-color:rgba(14,165,233,0.25);color:var(--blue-light)}
+.skill-tag.purple{background:rgba(14,165,233,0.1);border-color:rgba(14,165,233,0.25);color:var(--blue-light)}
+.timeline{position:relative;padding-left:1.5rem}
+.timeline::before{content:'';position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:linear-gradient(to bottom,var(--blue-bright),transparent)}
+.timeline-item{position:relative;padding-bottom:1.25rem}
+.timeline-item:last-child{padding-bottom:0}
+.timeline-dot{position:absolute;left:-1.5rem;top:4px;width:14px;height:14px;border-radius:50%;background:var(--blue-bright);border:2px solid var(--bg);box-shadow:0 0 8px rgba(14,165,233,0.4)}
+.timeline-title{font-size:0.875rem;font-weight:600;color:var(--text)}
+.timeline-sub{font-size:0.78rem;color:var(--text3);margin-top:2px}
+.timeline-date{font-size:0.72rem;color:var(--text-muted);margin-top:2px}
+.achievement-list{list-style:none}
+.achievement-list li{display:flex;align-items:flex-start;gap:0.5rem;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.83rem;color:var(--text2)}
+.achievement-list li:last-child{border-bottom:none}
+.hamburger{display:none;position:fixed;top:1rem;left:1rem;z-index:200;width:36px;height:36px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:20px;align-items:center;justify-content:center;cursor:pointer}
+
+@media (max-width: 768px){
+  .hamburger{display:flex}
+  .sidebar{transform:translateX(-100%);width:220px}
+  .sidebar.open{transform:translateX(0)}
+  .main-content{margin-left:0;padding:1rem;width:100%}
+  .topbar{flex-direction:column;align-items:flex-start;gap:.5rem;margin-top:3rem}
+  .topbar-left h1{font-size:1.2rem}
+  .bio-hero{flex-direction:column;text-align:center;padding:1.5rem 1rem}
+  .bio-avatar{width:100px;height:100px}
+  .bio-info h1{font-size:1.5rem}
+  .bio-socials{justify-content:center}
+  .bio-grid{grid-template-columns:1fr}
+  .bio-card div[style*="repeat(4,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+</style>
+</head>
+<body>
+<button class="hamburger" onclick="toggleSidebar()">☰</button>
+
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <h2>🚀 AK ProjectHub</h2>
+      <span>Developer Portfolio</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="index.html" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="projects.html" class="nav-item"><span class="nav-icon">📁</span> Projects</a>
+      <div class="nav-section-label" style="margin-top:.5rem">Profile</div>
+      <a href="portfolio.html" class="nav-item active"><span class="nav-icon">👤</span> Portfolio</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">
+          <img src="Profile.jpeg" alt="AK" onerror="this.style.display='none'">
+        </div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">K Ansar</div>
+          <div class="sidebar-user-role">Developer</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="topbar">
+      <div class="topbar-left"><h1>Portfolio</h1><p>Professional profile of K Ansar</p></div>
+    </div>
+    
+    <div class="bio-hero">
+      <div class="bio-avatar">
+        <img src="Profile.jpeg" alt="K Ansar" onerror="this.style.display='none'">
+      </div>
+      <div class="bio-info">
+        <h1>K Ansar</h1>
+        <div class="bio-role">Full Stack Developer · Django & Next.js Builder · AI Project Creator</div>
+        <div class="bio-loc">📍 Palakkad, Kerala, India</div>
+        <div class="bio-socials">
+          <a href="https://ansarkp10.github.io/" target="_blank" class="social-btn">🌐 Portfolio</a>
+          <a href="https://github.com/ansarkp10" target="_blank" class="social-btn">🐙 GitHub</a>
+          <a href="https://www.linkedin.com/in/ansar-kp-76040429b" target="_blank" class="social-btn">💼 LinkedIn</a>
+          <a href="https://www.instagram.com/ansarkp10" target="_blank" class="social-btn">📸 Instagram</a>
+          <a href="https://www.facebook.com/ansar.bhai.37201" target="_blank" class="social-btn">📘 Facebook</a>
+          <a href="mailto:ansarkp250@gmail.com" class="social-btn">📧 Email</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bio-grid">
+      <div class="bio-card" style="grid-column:1/-1">
+        <h3>👋 About Me</h3>
+        <p>Hi, I'm <strong style="color:var(--g6)">K Ansar</strong> — a Full Stack Developer with over 3 years of experience building engaging, user-friendly websites and applications. I'm passionate about crafting distinctive digital identities that resonate with audiences and elevate brand presence. I specialise in secure and efficient server-side logic, and I constantly stay at the forefront of emerging technologies to enhance the overall performance of web applications.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin-top:1.25rem">
+          <div style="background:rgba(34,197,94,0.05);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem"><div style="color:var(--text-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem">Name</div><div style="color:var(--text);font-weight:600;font-size:.85rem">K Ansar</div></div>
+          <div style="background:rgba(34,197,94,0.05);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem"><div style="color:var(--text-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem">Age</div><div style="color:var(--text);font-weight:600;font-size:.85rem">24</div></div>
+          <div style="background:rgba(34,197,94,0.05);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem"><div style="color:var(--text-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem">Phone</div><div style="color:var(--text);font-weight:600;font-size:.85rem">+91 8848957977</div></div>
+          <div style="background:rgba(34,197,94,0.05);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem"><div style="color:var(--text-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem">Email</div><div style="color:var(--text);font-weight:600;font-size:.85rem">ansarkp250@gmail.com</div></div>
+        </div>
+      </div>
+      
+      <div class="bio-card" style="grid-column:1/-1">
+        <h3>📊 Impact & Numbers</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center">
+          <div><div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g5)">20+</div><div style="font-size:.75rem;color:var(--text3);margin-top:2px">Projects</div></div>
+          <div><div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g5)">400K</div><div style="font-size:.75rem;color:var(--text3);margin-top:2px">Downloads</div></div>
+          <div><div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g5)">60+</div><div style="font-size:.75rem;color:var(--text3);margin-top:2px">Reviews</div></div>
+          <div><div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g5)">200K</div><div style="font-size:.75rem;color:var(--text3);margin-top:2px">Active Users</div></div>
+        </div>
+      </div>
+      
+      <div class="bio-card">
+        <h3>🛠 Technical Skills</h3>
+        <div class="skills-tags">
+          <span class="skill-tag green">JavaScript</span>
+          <span class="skill-tag green">React.js</span>
+          <span class="skill-tag green">Node.js</span>
+          <span class="skill-tag green">MongoDB</span>
+          <span class="skill-tag green">HTML/CSS</span>
+          <span class="skill-tag blue">Python</span>
+          <span class="skill-tag blue">Django</span>
+          <span class="skill-tag blue">Next.js</span>
+          <span class="skill-tag blue">PHP</span>
+          <span class="skill-tag gold">Pandas</span>
+          <span class="skill-tag gold">NumPy</span>
+          <span class="skill-tag gold">Matplotlib</span>
+          <span class="skill-tag purple">TensorFlow</span>
+          <span class="skill-tag purple">Scikit-Learn</span>
+          <span class="skill-tag purple">Git</span>
+          <span class="skill-tag purple">Docker</span>
+        </div>
+      </div>
+      
+      <div class="bio-card">
+        <h3>🎯 Services</h3>
+        <div style="display:flex;flex-direction:column;gap:.6rem">
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.83rem;color:var(--text2)">💻 Web Development</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.83rem;color:var(--text2)">🎨 Web Design</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.83rem;color:var(--text2)">📱 App Development</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.83rem;color:var(--text2)">📊 Data Analytics</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.83rem;color:var(--text2)">🤖 Machine Learning</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.83rem;color:var(--text2)">⚙️ DevOps</div>
+        </div>
+      </div>
+      
+      <div class="bio-card">
+        <h3>💼 Work Experience</h3>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-title">Full Stack Developer</div><div class="timeline-sub">Freelance Projects</div><div class="timeline-date">2026 – Present</div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-title">AI Intern</div><div class="timeline-sub">SmartED Innovations, Bengaluru</div><div class="timeline-date">2024 – 2025</div></div>
+        </div>
+      </div>
+      
+      <div class="bio-card">
+        <h3>🎓 Education</h3>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-title">MCA (Master of Computer Applications)</div><div class="timeline-sub">APJ Abdul Kalam Technological University</div><div class="timeline-date">2024 – 2026</div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-title">Bachelor of Science in Computer Science</div><div class="timeline-sub">University Of Calicut, Kerala</div><div class="timeline-date">2021 – 2024</div></div>
+        </div>
+      </div>
+      
+      <div class="bio-card">
+        <h3>🏆 Achievements & Certifications</h3>
+        <ul class="achievement-list">
+          <li>Meta Certified Back-End Developer Professional Certificate</li>
+          <li>Certified in Django Web Framework & REST APIs</li>
+          <li>Completed Full Stack Development Specialization</li>
+          <li>Certified in Programming with Python & Database Management</li>
+          <li>Skilled in Git & Version Control for Collaborative Development</li>
+          <li>NPTEL Elite Certified in Cloud Computing</li>
+        </ul>
+      </div>
+      
+      <div class="bio-card">
+        <h3>❤️ Interests & Hobbies</h3>
+        <div class="skills-tags">
+          <span class="skill-tag green">Full Stack Development</span>
+          <span class="skill-tag blue">AI & ML</span>
+          <span class="skill-tag gold">Data Analytics</span>
+          <span class="skill-tag purple">Coding</span>
+          <span class="skill-tag green">UI/UX Design</span>
+          <span class="skill-tag blue">Football</span>
+          <span class="skill-tag gold">Video Editing</span>
+          <span class="skill-tag purple">Music</span>
+        </div>
+      </div>
+      
+      <div class="bio-card" style="grid-column:1/-1;background:linear-gradient(135deg,rgba(14,165,233,0.15),rgba(2,132,199,0.25));border-color:var(--border2);text-align:center;padding:2rem">
+        <div style="font-size:2rem;margin-bottom:.75rem">🌐</div>
+        <h3 style="justify-content:center;margin-bottom:.5rem;color:var(--blue-light)">Live Portfolio Website</h3>
+        <p style="margin-bottom:1.25rem;color:var(--text3)">Full portfolio with all projects, services and contact details.</p>
+        <a href="https://ansarkp10.github.io/" target="_blank" style="display:inline-flex;align-items:center;gap:.6rem;padding:.75rem 2rem;background:linear-gradient(135deg,var(--blue-deep),var(--blue-bright));border-radius:10px;color:#fff;text-decoration:none;font-weight:700;font-family:'Syne',sans-serif;font-size:.9rem;transition:.3s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(14,165,233,0.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">Visit ansarkp10.github.io →</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+</script>
+</body>
+</html>
